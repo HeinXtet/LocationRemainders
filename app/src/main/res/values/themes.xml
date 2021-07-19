@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.LocationRemainder" parent="Theme.MaterialComponents.Light.DarkActionBar.Bridge">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">#455a64</item>
+        <item name="colorPrimaryVariant">#1c313a</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">#ffc107</item>
+        <item name="colorSecondaryVariant">#c79100</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+    </style>
+</resources>

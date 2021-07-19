@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">LocationRemainder</string>
+    <string name="title_remainders">Remainders</string>
+</resources>

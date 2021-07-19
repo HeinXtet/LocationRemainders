@@ -3,11 +3,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/remaindersFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/remaindersFragment"
         android:name="com.deevvdd.locationremainder.ui.remainderList.RemaindersFragment"
-        tools:layout="@layout/remainders_fragment"
-        android:label="@string/title_remainders" />
+        android:label="@string/title_remainders"
+        tools:layout="@layout/fragment_remainders">
+        <action
+            android:id="@+id/action_remaindersFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/remaindersFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_remaindersFragment_to_addNewRemainder"
+            app:destination="@id/addNewRemainder" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.deevvdd.locationremainder.ui.login.LoginFragment"
+        android:label="@string/login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_remaindersFragment"
+            app:destination="@id/remaindersFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/addNewRemainder"
+        android:name="com.deevvdd.locationremainder.ui.addRemainder.AddNewRemainderFragment"
+        android:label="@string/text_add_new_remainder"
+        tools:layout="@layout/fragment_add_new_remainder">
+        <action
+            android:id="@+id/action_addNewRemainder_to_mapFragment"
+            app:destination="@id/mapFragment" />
+        <action
+            android:id="@+id/action_addNewRemainder_to_remaindersFragment"
+            app:destination="@id/remaindersFragment"
+            app:popUpTo="@id/remaindersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.deevvdd.locationremainder.ui.map.MapFragment"
+        android:label="MapFragment"
+        tools:layout="@layout/fragment_map" />
 </navigation>

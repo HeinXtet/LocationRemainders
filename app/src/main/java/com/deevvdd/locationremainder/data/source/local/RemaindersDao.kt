@@ -1,10 +1,7 @@
 package com.deevvdd.locationremainder.data.source.local
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.deevvdd.locationremainder.domain.model.Remainder
 
 /**
@@ -17,4 +14,12 @@ interface RemaindersDao {
 
     @Query("SELECT * FROM remainder")
     fun observeRemainders(): LiveData<List<Remainder>>
+
+
+    @Delete
+    fun deleteRemainder(remainder: Remainder)
+
+
+    @Query("SELECT * FROM remainder WHERE placeId = :id LIMIT 1")
+    suspend fun getRemainderById(id: String): Remainder?
 }

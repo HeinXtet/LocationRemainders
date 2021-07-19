@@ -15,7 +15,8 @@ data class Remainder(
     var id: String = UUID.randomUUID().toString(),
     val title: String,
     val description: String,
-    val latitude: Long,
-    val longitude: Long,
-    val place: String
+    val latitude: Double,
+    val longitude: Double,
+    val place: String,
+    val placeId: String
 )

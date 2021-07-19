@@ -1,0 +1,251 @@
+{
+  "project_info": {
+    "project_number": "783250029345",
+    "firebase_url": "https://quickchat-a4cc8.firebaseio.com",
+    "project_id": "quickchat-a4cc8",
+    "storage_bucket": "quickchat-a4cc8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:783250029345:android:207a1ffc16f604a97e5c60",
+        "android_client_info": {
+          "package_name": "com.abcmall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "783250029345-ucir0oe1t01flia96nok5nbq14cbo3ei.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIfbYPx8UrNnkcArm1fPKVA_YozAsdenc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "783250029345-ucir0oe1t01flia96nok5nbq14cbo3ei.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "783250029345-3dlfs0dnlb2opggm8bmc52l6s0p8a2u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "enterprise.codigo.gems-school-bus"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:783250029345:android:140e080307bb788d7e5c60",
+        "android_client_info": {
+          "package_name": "com.deevvdd.chatty"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "783250029345-d7k306oejisjvmq8pmepf50oh6tqu3q2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.deevvdd.chatty",
+            "certificate_hash": "cf5b633e55f187c9e48a6002b7886d1bad511c03"
+          }
+        },
+        {
+          "client_id": "783250029345-ucir0oe1t01flia96nok5nbq14cbo3ei.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIfbYPx8UrNnkcArm1fPKVA_YozAsdenc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "783250029345-ucir0oe1t01flia96nok5nbq14cbo3ei.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "783250029345-3dlfs0dnlb2opggm8bmc52l6s0p8a2u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "enterprise.codigo.gems-school-bus"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:783250029345:android:8bca0433f9eef8a97e5c60",
+        "android_client_info": {
+          "package_name": "com.deevvdd.firebase.friendlychat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "783250029345-qbt0ltstbmedgmap9ebed49qetli8vbn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.deevvdd.firebase.friendlychat",
+            "certificate_hash": "cf5b633e55f187c9e48a6002b7886d1bad511c03"
+          }
+        },
+        {
+          "client_id": "783250029345-ucir0oe1t01flia96nok5nbq14cbo3ei.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIfbYPx8UrNnkcArm1fPKVA_YozAsdenc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "783250029345-ucir0oe1t01flia96nok5nbq14cbo3ei.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "783250029345-3dlfs0dnlb2opggm8bmc52l6s0p8a2u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "enterprise.codigo.gems-school-bus"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:783250029345:android:e1dd34ce52e8e3387e5c60",
+        "android_client_info": {
+          "package_name": "com.deevvdd.locationremainder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "783250029345-ucir0oe1t01flia96nok5nbq14cbo3ei.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIfbYPx8UrNnkcArm1fPKVA_YozAsdenc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "783250029345-ucir0oe1t01flia96nok5nbq14cbo3ei.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "783250029345-3dlfs0dnlb2opggm8bmc52l6s0p8a2u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "enterprise.codigo.gems-school-bus"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:783250029345:android:03fe3546a77dc3917e5c60",
+        "android_client_info": {
+          "package_name": "com.deevvdd.quickchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "783250029345-ucir0oe1t01flia96nok5nbq14cbo3ei.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIfbYPx8UrNnkcArm1fPKVA_YozAsdenc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "783250029345-ucir0oe1t01flia96nok5nbq14cbo3ei.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "783250029345-3dlfs0dnlb2opggm8bmc52l6s0p8a2u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "enterprise.codigo.gems-school-bus"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:783250029345:android:a6d29d73e394f8097e5c60",
+        "android_client_info": {
+          "package_name": "sg.com.gems.parent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "783250029345-4m0mgs3rvoma2l5t0dehqlev7ftjf8el.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sg.com.gems.parent",
+            "certificate_hash": "20594ea910a9b5af275e7f0fd362f5e99e457e74"
+          }
+        },
+        {
+          "client_id": "783250029345-ucir0oe1t01flia96nok5nbq14cbo3ei.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIfbYPx8UrNnkcArm1fPKVA_YozAsdenc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "783250029345-ucir0oe1t01flia96nok5nbq14cbo3ei.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "783250029345-3dlfs0dnlb2opggm8bmc52l6s0p8a2u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "enterprise.codigo.gems-school-bus"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

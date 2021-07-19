@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.deevvdd.locationremainder.geofence.createChannel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,17 +18,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initNavController()
     }
+
     private fun initNavController() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
         val appBarConfiguration =
-            AppBarConfiguration.Builder(R.id.remaindersFragment)
+            AppBarConfiguration.Builder(R.id.remaindersFragment, R.id.loginFragment)
                 .build()
         setupActionBarWithNavController(navController, appBarConfiguration)
+        createChannel(this)
     }
 
     override fun onNavigateUp(): Boolean {
+        return navController.navigateUp()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp()
     }
 }

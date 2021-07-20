@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.deevvdd.locationremainder.R
 import com.deevvdd.locationremainder.databinding.FragmentAddNewRemainderBinding
@@ -23,6 +24,7 @@ import com.google.android.gms.location.GeofencingClient
 import com.google.android.gms.location.GeofencingRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.PointOfInterest
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -75,6 +77,22 @@ class AddNewRemainderFragment : BaseFragment() {
             ).show()
             addGeofence()
         })
+
+        viewModel.showSnackBarInt.observe(viewLifecycleOwner, {
+            it.getContentIfNotHandled()?.let {
+                Snackbar.make(binding.root, getString(it), 2000).show()
+            }
+        })
+        viewModel.toastInt.observe(viewLifecycleOwner, {
+            it.getContentIfNotHandled()?.let {
+                Toast.makeText(
+                    requireContext(),
+                    getString(it),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+        })
         init()
         return binding.root
     }
@@ -86,15 +104,7 @@ class AddNewRemainderFragment : BaseFragment() {
                 findNavController().safeNavigate(AddNewRemainderFragmentDirections.actionAddNewRemainderToMapFragment())
             }
             fabAddRemainder.setOnClickListener {
-                if (viewModel.isValidToSave()) {
-                    viewModel.addNewRemainder()
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.text_input_data),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                viewModel.addNewRemainder()
             }
         }
     }

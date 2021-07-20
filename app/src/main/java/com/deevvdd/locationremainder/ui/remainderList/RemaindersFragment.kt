@@ -12,6 +12,7 @@ import android.view.*
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.deevvdd.locationremainder.BuildConfig
 import com.deevvdd.locationremainder.R
@@ -60,10 +61,6 @@ class RemaindersFragment : BaseFragment(), RemainderAdapterCallback {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,6 +98,11 @@ class RemaindersFragment : BaseFragment(), RemainderAdapterCallback {
     private fun initObserver() {
         viewModel.logoutEvent.observe(viewLifecycleOwner, { logout ->
             findNavController().navigate(RemaindersFragmentDirections.actionRemaindersFragmentToLoginFragment())
+        })
+        viewModel.showSnackBarInt.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                Snackbar.make(binding.root, getString(it), 2000).show()
+            }
         })
     }
 

@@ -55,11 +55,15 @@
 
     <!-- Notification Strings-->
     <string name="channel_name">GeofenceStatus</string>
-    <string name="notification_channel_description">Geofence status notification</string>
+    <string name="notification_channel_description">Location Remainder status notification</string>
 
     <!-- Content Description Strings -->
     <string name="android_map_description">An Android robot with a map</string>
     <string name="content_text">You meet with you location point <xliff:g id="geofence_location">%1$s</xliff:g>.</string>
+    <string name="error_message_title_empty">Enter title</string>
+    <string name="error_message_description_empty">Enter description</string>
+    <string name="error_message_poi_empty">Please select your POI</string>
+    <string name="remainder_deleted">Remainder Deleted</string>
 
 
 </resources>

@@ -19,8 +19,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/padding_small"
-          >
+            android:paddingBottom="@dimen/padding_small">
 
             <TextView
                 android:id="@+id/tvTitle"
@@ -29,6 +28,8 @@
                 android:padding="@dimen/padding_small"
                 android:text="@{remainder.title}"
                 android:textColor="@color/black"
+                android:textSize="@dimen/font_regular"
+                android:textStyle="bold"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toStartOf="@id/ivDelete"
                 app:layout_constraintStart_toStartOf="parent"
@@ -40,9 +41,9 @@
                 android:id="@+id/ivDelete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_medium"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/spacing_extra_small"
-                android:layout_margin="@dimen/spacing_medium"
                 android:src="@drawable/baseline_delete_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -51,12 +52,13 @@
             <TextView
                 android:id="@+id/tvPlace"
                 android:layout_width="wrap_content"
-                android:layout_marginStart="@dimen/padding_small"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_small"
                 android:background="@color/secondaryColor"
                 android:padding="@dimen/padding_small"
                 android:text="@{remainder.place}"
                 android:textColor="@color/white"
+                app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"

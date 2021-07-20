@@ -65,8 +65,6 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
     private fun setupMap() {
 
         try {
-            // Customise the styling of the base map using a JSON object defined
-            // in a raw resource file.
             val success: Boolean = map.setMapStyle(
                 MapStyleOptions.loadRawResourceStyle(
                     requireActivity(), R.raw.map_styled

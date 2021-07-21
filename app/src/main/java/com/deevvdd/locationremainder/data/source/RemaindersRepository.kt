@@ -16,4 +16,6 @@ interface RemaindersRepository {
 
     suspend fun getRemainderById(id  : String) : Remainder?
 
+    fun getRemainders() : List<Remainder>
+
 }

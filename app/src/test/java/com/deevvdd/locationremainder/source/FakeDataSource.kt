@@ -8,8 +8,12 @@ import com.deevvdd.locationremainder.domain.model.Remainder
  * Created by heinhtet deevvdd@gmail.com on 20,July,2021
  */
 class FakeDataSource : RemainderDataSource {
+
+
+    private var remainders: MutableList<Remainder> = mutableListOf()
+
     override suspend fun saveRemainder(remainder: Remainder) {
-        TODO("Not yet implemented")
+        remainders.add(remainder)
     }
 
     override fun observeRemainders(): LiveData<List<Remainder>> {
@@ -17,10 +21,14 @@ class FakeDataSource : RemainderDataSource {
     }
 
     override suspend fun deleteRemainder(remainder: Remainder) {
-        TODO("Not yet implemented")
+        remainders.remove(remainder)
     }
 
     override suspend fun getRemainderById(id: String): Remainder? {
-        TODO("Not yet implemented")
+        return remainders.findLast { id == it.id }
+    }
+
+    override fun getRemainders(): List<Remainder> {
+        return remainders.toList()
     }
 }

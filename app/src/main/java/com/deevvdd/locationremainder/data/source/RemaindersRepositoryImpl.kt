@@ -48,4 +48,9 @@ class RemaindersRepositoryImpl @Inject constructor(private val remaindersLocalDa
     override suspend fun getRemainderById(id: String): Remainder? {
         return remaindersLocalDataSource.getRemainderById(id)
     }
+
+    override fun getRemainders(): List<Remainder> {
+        return remaindersLocalDataSource.getRemainders()
+    }
+
 }

@@ -23,7 +23,11 @@ class RemaindersLocalDataSource @Inject constructor(private val dao: RemaindersD
         dao.deleteRemainder(remainder)
     }
 
-    override suspend fun getRemainderById(id: String) : Remainder? {
+    override suspend fun getRemainderById(id: String): Remainder? {
         return dao.getRemainderById(id)
+    }
+
+    override fun getRemainders(): List<Remainder> {
+        return dao.getRemainders()
     }
 }

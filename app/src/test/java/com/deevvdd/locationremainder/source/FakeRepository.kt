@@ -30,4 +30,8 @@ class FakeRepository : RemaindersRepository {
     override suspend fun getRemainderById(id: String): Remainder? {
         TODO("Not yet implemented")
     }
+
+    override fun getRemainders(): List<Remainder> {
+        return remainders
+    }
 }

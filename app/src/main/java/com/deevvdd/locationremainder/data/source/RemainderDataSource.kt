@@ -10,9 +10,12 @@ interface RemainderDataSource {
 
     suspend fun saveRemainder(remainder: Remainder)
 
-     fun observeRemainders(): LiveData<List<Remainder>>
+    fun observeRemainders(): LiveData<List<Remainder>>
 
     suspend fun deleteRemainder(remainder: Remainder)
-    suspend fun getRemainderById(id: String) : Remainder?
+    suspend fun getRemainderById(id: String): Remainder?
+
+
+    fun getRemainders(): List<Remainder>
 
 }

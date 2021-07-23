@@ -24,7 +24,9 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
+import android.os.Bundle
 import androidx.core.app.NotificationCompat
+import androidx.navigation.NavDeepLinkBuilder
 import com.deevvdd.locationremainder.MainActivity
 import com.deevvdd.locationremainder.R
 import com.deevvdd.locationremainder.domain.model.Remainder
@@ -57,15 +59,29 @@ fun createChannel(context: Context) {
     }
 }
 
+fun pendingIntent(context: Context, placeId: String): PendingIntent {
+    val bundle = Bundle()
+    bundle.putString(GeofenceUtils.GEOFENCE_EXTRA, placeId)
+    return NavDeepLinkBuilder(context)
+        .setGraph(R.navigation.nav_graph)
+        .setDestination(R.id.remainderDetailFragment)
+        .setArguments(bundle)
+        .setComponentName(MainActivity::class.java)
+        .createPendingIntent()
+}
+
 fun NotificationManager.sendGeofenceEnteredNotification(context: Context, remainder: Remainder) {
+
+
     val contentIntent = Intent(context, MainActivity::class.java)
-    contentIntent.putExtra(GeofenceUtils.GEOFENCE_EXTRA, remainder.id)
+    contentIntent.putExtra(GeofenceUtils.GEOFENCE_EXTRA, remainder.placeId)
     val contentPendingIntent = PendingIntent.getActivity(
         context,
         NOTIFICATION_ID,
         contentIntent,
         PendingIntent.FLAG_UPDATE_CURRENT
     )
+
     val mapImage = BitmapFactory.decodeResource(
         context.resources,
         R.drawable.map_small
@@ -83,9 +99,10 @@ fun NotificationManager.sendGeofenceEnteredNotification(context: Context, remain
             )
         )
         .setPriority(NotificationCompat.PRIORITY_HIGH)
-        .setContentIntent(contentPendingIntent)
+        .setContentIntent(pendingIntent(context, remainder.placeId))
         .setSmallIcon(R.drawable.map_small)
         .setStyle(bigPicStyle)
+        .setAutoCancel(false)
         .setLargeIcon(mapImage)
 
     notify(NOTIFICATION_ID, builder.build())

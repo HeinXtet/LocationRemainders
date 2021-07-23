@@ -48,4 +48,9 @@
         android:name="com.deevvdd.locationremainder.ui.map.MapFragment"
         android:label="MapFragment"
         tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/remainderDetailFragment"
+        android:name="com.deevvdd.locationremainder.ui.reminderDetail.RemainderDetailFragment"
+        android:label="RemainderDetailFragment"
+        tools:layout="@layout/fragment_remainder_detail" />
 </navigation>

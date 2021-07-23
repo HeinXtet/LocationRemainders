@@ -7,7 +7,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.deevvdd.locationremainder.geofence.GeofenceUtils
 import com.deevvdd.locationremainder.geofence.createChannel
+import com.deevvdd.locationremainder.utils.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,6 +30,13 @@ class MainActivity : AppCompatActivity() {
                 .build()
         setupActionBarWithNavController(navController, appBarConfiguration)
         createChannel(this)
+//
+//        if (intent.hasExtra(GeofenceUtils.GEOFENCE_EXTRA)) {
+//            val placeId = intent.getStringExtra(GeofenceUtils.GEOFENCE_EXTRA)
+//            if (!placeId.isNullOrEmpty()) {
+//                navController.safeNavigate()
+//            }
+//        }
     }
 
     override fun onNavigateUp(): Boolean {

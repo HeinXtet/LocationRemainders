@@ -57,7 +57,7 @@ class RemainderViewModel @Inject constructor(private val repository: RemaindersR
     fun deleteRemainder(remainder: Remainder) {
         CoroutineScope(Dispatchers.IO).launch {
             repository.deleteRemainder(remainder)
-            showSnackBarInt.value = Event(R.string.remainder_deleted)
         }
+        showSnackBarInt.value = Event(R.string.remainder_deleted)
     }
 }

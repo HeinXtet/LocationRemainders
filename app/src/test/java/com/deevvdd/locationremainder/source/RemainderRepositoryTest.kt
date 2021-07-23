@@ -26,7 +26,6 @@ class RemainderRepositoryTest {
         remainderRepository = RemaindersRepositoryImpl(fakeDataSource)
     }
 
-
     @Test
     fun saveRemainder_return_notEmptyList() = runBlockingTest {
         remainderRepository.saveReminder(TestModelUtils.getTestRemainder())

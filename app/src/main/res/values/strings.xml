@@ -64,6 +64,10 @@
     <string name="error_message_description_empty">Enter description</string>
     <string name="error_message_poi_empty">Please select your POI</string>
     <string name="remainder_deleted">Remainder Deleted</string>
+    <string name="remainder_title">Remainder Title : </string>
+    <string name="remainder_description">Description</string>
+    <string name="remainder_place">Place</string>
+    <string name="remainder_place_latlng">Latitude, Longitude</string>
 
 
 </resources>

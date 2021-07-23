@@ -52,5 +52,4 @@ class RemaindersRepositoryImpl @Inject constructor(private val remaindersLocalDa
     override fun getRemainders(): List<Remainder> {
         return remaindersLocalDataSource.getRemainders()
     }
-
 }

@@ -1,5 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
+
+    <style name="AppTheme" parent="Theme.LocationRemainder" />
+
     <style name="Theme.LocationRemainder" parent="Theme.MaterialComponents.Light.DarkActionBar.Bridge">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primaryColor</item>

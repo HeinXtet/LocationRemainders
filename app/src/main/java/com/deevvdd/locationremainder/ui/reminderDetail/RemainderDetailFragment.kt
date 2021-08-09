@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -36,7 +38,7 @@ class RemainderDetailFragment : BaseFragment() {
         val placeId = arguments?.getString(GeofenceUtils.GEOFENCE_EXTRA)
         viewModel.getRemainderByPlaceId(placeId.orEmpty())
         viewModel.remainder.observe(viewLifecycleOwner, { remainder ->
-            (requireActivity() as MainActivity).supportActionBar?.title = remainder.title
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = remainder.title
         })
         return binding.root
     }

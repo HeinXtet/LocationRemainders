@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import com.deevvdd.locationremainder.R
+import com.deevvdd.locationremainder.RemainderApp
 import com.deevvdd.locationremainder.data.source.RemaindersRepository
 import com.deevvdd.locationremainder.data.source.RemaindersRepositoryImpl
 import com.deevvdd.locationremainder.domain.model.Remainder
@@ -26,7 +27,7 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
     lateinit var repository: RemaindersRepository
 
     override fun onReceive(context: Context, intent: Intent?) {
-        repository = RemaindersRepositoryImpl.getRepository(context.applicationContext)
+        repository = (context.applicationContext as RemainderApp).remainderRepository
         val geofencingEvent = GeofencingEvent.fromIntent(intent)
         Timber.d("Geofence Receiver ${geofencingEvent.triggeringGeofences.size}")
         if (geofencingEvent.hasError()) {

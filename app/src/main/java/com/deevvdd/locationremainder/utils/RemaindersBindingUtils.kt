@@ -16,7 +16,6 @@ fun bindAdapter(recyclerView: RecyclerView, adapter: ListAdapter<*, *>) {
     recyclerView.adapter = adapter
 }
 
-
 @BindingAdapter("items")
 fun setItems(recyclerView: RecyclerView, items: List<Remainder>?) {
     (recyclerView.adapter as ListAdapter<*, *>).submitList(items as List<Nothing>?)

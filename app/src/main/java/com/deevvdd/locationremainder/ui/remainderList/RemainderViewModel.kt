@@ -1,7 +1,9 @@
 package com.deevvdd.locationremainder.ui.remainderList
 
 import android.content.Context
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.deevvdd.locationremainder.R
 import com.deevvdd.locationremainder.data.source.RemaindersRepository
 import com.deevvdd.locationremainder.domain.model.Remainder
@@ -12,9 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
-import kotlin.math.log
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 19,July,2021

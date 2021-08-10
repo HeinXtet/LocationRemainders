@@ -15,6 +15,7 @@ import com.deevvdd.locationremainder.domain.model.Remainder
 
 interface RemainderAdapterCallback {
     fun itemDelete(remainder: Remainder)
+    fun onItemClick(remainder: Remainder)
 }
 
 class RemainderAdapter(private val callback: RemainderAdapterCallback) :
@@ -57,6 +58,9 @@ class RemainderVH(
         binding.apply {
             remainder = item
             ivDelete.setOnClickListener { callback.itemDelete(item) }
+            this.root.setOnClickListener {
+                callback.onItemClick(item)
+            }
         }
     }
 }

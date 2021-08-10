@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.deevvdd.locationremainder.MainActivity
 import com.deevvdd.locationremainder.R
 import com.deevvdd.locationremainder.databinding.FragmentAddNewRemainderBinding
 import com.deevvdd.locationremainder.geofence.GeofenceBroadcastReceiver
@@ -64,11 +65,17 @@ class AddNewRemainderFragment : BaseFragment() {
             vm = viewModel
         }
         setupActions()
-        // listen when selected POI from map
-        getBackStackData<PointOfInterest>(SELECTED_POI) { data ->
-            Toast.makeText(requireContext(), data.name, Toast.LENGTH_SHORT).show()
-            viewModel.updatePOI(data)
+
+
+
+        // avoid on testing process
+        if(activity is MainActivity){
+            getBackStackData<PointOfInterest>(SELECTED_POI) { data ->
+                Toast.makeText(requireContext(), data.name, Toast.LENGTH_SHORT).show()
+                viewModel.updatePOI(data)
+            }
         }
+
         viewModel.savedRemainderEvent.observe(viewLifecycleOwner, {
             Toast.makeText(
                 requireContext(),

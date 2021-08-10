@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_remaindersFragment_to_addNewRemainder"
             app:destination="@id/addNewRemainder" />
+        <action
+            android:id="@+id/action_remaindersFragment_to_remainderDetailFragment"
+            app:destination="@id/remainderDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -52,5 +55,12 @@
         android:id="@+id/remainderDetailFragment"
         android:name="com.deevvdd.locationremainder.ui.reminderDetail.RemainderDetailFragment"
         android:label="RemainderDetailFragment"
-        tools:layout="@layout/fragment_remainder_detail" />
+        tools:layout="@layout/fragment_remainder_detail">
+
+        <argument
+            android:name="GEOFENCE_EXTRA"
+            app:argType="string" />
+
+
+    </fragment>
 </navigation>

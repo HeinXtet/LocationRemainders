@@ -18,6 +18,7 @@ import com.deevvdd.locationremainder.BuildConfig
 import com.deevvdd.locationremainder.R
 import com.deevvdd.locationremainder.databinding.FragmentRemaindersBinding
 import com.deevvdd.locationremainder.domain.model.Remainder
+import com.deevvdd.locationremainder.geofence.GeofenceUtils
 import com.deevvdd.locationremainder.ui.base.BaseFragment
 import com.deevvdd.locationremainder.utils.safeNavigate
 import com.google.android.gms.common.api.ResolvableApiException
@@ -206,7 +207,6 @@ class RemaindersFragment : BaseFragment(), RemainderAdapterCallback {
         }
         locationSettingsResponseTask.addOnCompleteListener {
             if (it.isSuccessful) {
-                // TODO GET LOCATION
             }
         }
     }
@@ -222,6 +222,16 @@ class RemaindersFragment : BaseFragment(), RemainderAdapterCallback {
 
     override fun itemDelete(remainder: Remainder) {
         viewModel.deleteRemainder(remainder)
+    }
+
+    override fun onItemClick(remainder: Remainder) {
+        val bundle = Bundle()
+        bundle.putString(GeofenceUtils.GEOFENCE_EXTRA, remainder.placeId)
+        findNavController().safeNavigate(
+            RemaindersFragmentDirections.actionRemaindersFragmentToRemainderDetailFragment(
+                GEOFENCEEXTRA = remainder.placeId
+            )
+        )
     }
 }
 

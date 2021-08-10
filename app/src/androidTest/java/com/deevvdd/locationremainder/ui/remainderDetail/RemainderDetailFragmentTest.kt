@@ -68,6 +68,8 @@ class RemainderDetailFragmentTest {
         onView(withId(R.id.tvLatLngValue)).check(matches(isDisplayed()))
         onView(withId(R.id.tvLatLngValue)).check(matches(withText("${remainder.latitude}, ${remainder.longitude}")))
 
+
+
         Thread.sleep(2000)
 
     }

@@ -20,8 +20,6 @@ class LoginViewModel : ViewModel() {
     private val _user = MutableLiveData<FirebaseUser?>()
 
 
-
-
     val user: LiveData<FirebaseUser?>
         get() = _user
 

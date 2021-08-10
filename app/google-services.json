@@ -139,6 +139,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "783250029345-ujc5o97kmos8ckohsns6vn975iqvtd14.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.deevvdd.locationremainder",
+            "certificate_hash": "cf5b633e55f187c9e48a6002b7886d1bad511c03"
+          }
+        },
+        {
           "client_id": "783250029345-ucir0oe1t01flia96nok5nbq14cbo3ei.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -171,6 +179,42 @@
         "mobilesdk_app_id": "1:783250029345:android:03fe3546a77dc3917e5c60",
         "android_client_info": {
           "package_name": "com.deevvdd.quickchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "783250029345-ucir0oe1t01flia96nok5nbq14cbo3ei.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIfbYPx8UrNnkcArm1fPKVA_YozAsdenc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "783250029345-ucir0oe1t01flia96nok5nbq14cbo3ei.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "783250029345-3dlfs0dnlb2opggm8bmc52l6s0p8a2u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "enterprise.codigo.gems-school-bus"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:783250029345:android:cbb8e73f586fbf0d7e5c60",
+        "android_client_info": {
+          "package_name": "com.udacity.project4"
         }
       },
       "oauth_client": [

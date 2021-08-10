@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/remaindersFragment"
-        android:name="com.deevvdd.locationremainder.ui.remainderList.RemaindersFragment"
+        android:name="com.udacity.project4.ui.remainderList.RemaindersFragment"
         android:label="@string/title_remainders"
         tools:layout="@layout/fragment_remainders">
         <action
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.deevvdd.locationremainder.ui.login.LoginFragment"
+        android:name="com.udacity.project4.ui.login.LoginFragment"
         android:label="@string/login"
         tools:layout="@layout/fragment_login">
         <action
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/addNewRemainder"
-        android:name="com.deevvdd.locationremainder.ui.addRemainder.AddNewRemainderFragment"
+        android:name="com.udacity.project4.ui.addRemainder.AddNewRemainderFragment"
         android:label="@string/text_add_new_remainder"
         tools:layout="@layout/fragment_add_new_remainder">
         <action
@@ -48,12 +48,12 @@
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
-        android:name="com.deevvdd.locationremainder.ui.map.MapFragment"
+        android:name="com.udacity.project4.ui.map.MapFragment"
         android:label="MapFragment"
         tools:layout="@layout/fragment_map" />
     <fragment
         android:id="@+id/remainderDetailFragment"
-        android:name="com.deevvdd.locationremainder.ui.reminderDetail.RemainderDetailFragment"
+        android:name="com.udacity.project4.ui.reminderDetail.RemainderDetailFragment"
         android:label="RemainderDetailFragment"
         tools:layout="@layout/fragment_remainder_detail">
 

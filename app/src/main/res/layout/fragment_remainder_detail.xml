@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.deevvdd.locationremainder.ui.reminderDetail.RemainderDetailViewModel" />
+            type="com.udacity.project4.ui.reminderDetail.RemainderDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

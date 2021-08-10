@@ -6,11 +6,11 @@
 
         <variable
             name="vm"
-            type="com.deevvdd.locationremainder.ui.remainderList.RemainderViewModel" />
+            type="com.udacity.project4.ui.remainderList.RemainderViewModel" />
 
         <variable
             name="adapter"
-            type="com.deevvdd.locationremainder.ui.remainderList.RemainderAdapter" />
+            type="com.udacity.project4.ui.remainderList.RemainderAdapter" />
 
         <import type="android.view.View" />
     </data>

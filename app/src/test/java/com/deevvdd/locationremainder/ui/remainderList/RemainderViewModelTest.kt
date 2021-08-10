@@ -4,9 +4,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.deevvdd.locationremainder.domain.model.Remainder
 import com.deevvdd.locationremainder.getOrAwaitValue
 import com.deevvdd.locationremainder.source.FakeRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
-import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -16,6 +17,7 @@ import org.junit.Test
  */
 
 
+@ExperimentalCoroutinesApi
 class RemainderViewModelTest {
 
 
@@ -55,4 +57,7 @@ class RemainderViewModelTest {
         val value = viewModel.logoutEvent.getOrAwaitValue()
         assertThat(value, not(nullValue()))
     }
+
+
+
 }

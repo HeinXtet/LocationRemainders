@@ -29,4 +29,7 @@ interface RemaindersDao {
 
     @Query("DELETE FROM remainder")
     fun deleteAllRemainders(): Int
+
+    @Update
+    fun updateRemainder(remainder: Remainder)
 }

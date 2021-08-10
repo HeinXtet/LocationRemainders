@@ -74,7 +74,6 @@ class RemaindersFragmentTest : TestWatcher() {
         )
     }
 
-
     @Test
     fun clickTask_navigateToAddNewRemainderFragment() = runBlocking {
         val navController = mock(NavController::class.java)

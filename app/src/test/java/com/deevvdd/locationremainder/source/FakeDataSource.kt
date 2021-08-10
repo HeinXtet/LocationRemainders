@@ -26,7 +26,7 @@ class FakeDataSource : RemainderDataSource {
     }
 
     override suspend fun getRemainderById(id: String): Remainder? {
-        return remainders.findLast { id == it.id }
+        return remainders.findLast { id == it.placeId }
     }
 
     override fun getRemainders(): List<Remainder> {

@@ -31,10 +31,10 @@ class AddRemainderViewModel @Inject constructor(private val repository: Remainde
     }
 
 
-    private val _savedRemainderEvent = MutableLiveData<Event<Unit>>()
+    private val _savedRemainderEvent = MutableLiveData<Event<Int>>()
 
 
-    val savedRemainderEvent: LiveData<Event<Unit>>
+    val savedRemainderEvent: LiveData<Event<Int>>
         get() = _savedRemainderEvent
 
 
@@ -42,7 +42,7 @@ class AddRemainderViewModel @Inject constructor(private val repository: Remainde
         get() = _selectedPOI
 
 
-     fun isValidToSave(): Boolean {
+    fun isValidToSave(): Boolean {
         if (title.value.orEmpty().isEmpty()) {
             showSnackBarInt.value = Event(R.string.error_message_title_empty)
             return false
@@ -82,7 +82,7 @@ class AddRemainderViewModel @Inject constructor(private val repository: Remainde
     }
 
 
-    fun savedRemainder() {
-        _savedRemainderEvent.value = Event(Unit)
+     fun savedRemainder() {
+        _savedRemainderEvent.value = Event(R.string.text_add_new_remainder_sucess)
     }
 }

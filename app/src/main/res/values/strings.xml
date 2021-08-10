@@ -68,6 +68,7 @@
     <string name="remainder_description">Description</string>
     <string name="remainder_place">Place</string>
     <string name="remainder_place_latlng">Latitude, Longitude</string>
+    <string name="text_add_new_remainder_sucess">New remainder added</string>
 
 
 </resources>

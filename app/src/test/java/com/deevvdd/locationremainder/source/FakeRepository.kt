@@ -24,11 +24,11 @@ class FakeRepository : RemaindersRepository {
     }
 
     override suspend fun deleteRemainder(remainder: Remainder) {
-        TODO("Not yet implemented")
+        remainders.remove(remainder)
     }
 
     override suspend fun getRemainderById(id: String): Remainder? {
-        TODO("Not yet implemented")
+        return remainders.find { it.placeId == id }
     }
 
     override fun getRemainders(): List<Remainder> {

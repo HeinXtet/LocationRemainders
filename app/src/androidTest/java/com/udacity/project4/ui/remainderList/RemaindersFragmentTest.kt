@@ -1,6 +1,8 @@
 package com.udacity.project4.ui.remainderList
 
 import android.os.Bundle
+import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.fragment.app.testing.withFragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
@@ -13,8 +15,10 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.udacity.project4.R
+import com.udacity.project4.ServiceLocator
 import com.udacity.project4.TestAndroidModelUtils
 import com.udacity.project4.data.source.RemaindersRepository
+import com.udacity.project4.source.FakeAndroidRepository
 import com.udacity.project4.utils.RecyclerViewAction
 import com.udacity.project4.utils.launchFragmentInHiltContainer
 import com.udacity.project4.utils.safeNavigate
@@ -28,28 +32,23 @@ import org.junit.rules.TestWatcher
 import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
-import javax.inject.Inject
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 10,August,2021
  */
-@HiltAndroidTest
+//@HiltAndroidTest
 @MediumTest
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 class RemaindersFragmentTest : TestWatcher() {
 
-    @get:Rule()
-    var hiltAndroidRule = HiltAndroidRule(this)
-
-
-    @Inject
-    lateinit var repository: RemaindersRepository
+    private lateinit var repository: RemaindersRepository
 
 
     @Before
     fun initRepository() {
-        hiltAndroidRule.inject()
+        repository = FakeAndroidRepository()
+        ServiceLocator.repository = repository
     }
 
     @Test
@@ -57,7 +56,7 @@ class RemaindersFragmentTest : TestWatcher() {
         val navController = mock(NavController::class.java)
         val remainder = TestAndroidModelUtils.getTestRemainder()
         repository.saveReminder(remainder)
-        launchFragmentInHiltContainer<RemaindersFragment>(Bundle(), R.style.AppTheme) {
+        launchFragmentInContainer<RemaindersFragment>(Bundle(), R.style.AppTheme).withFragment {
             Navigation.setViewNavController(this.view!!, navController)
         }
         onView(withId(R.id.rvRemainders))

@@ -11,7 +11,6 @@ import android.provider.Settings
 import android.view.*
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.udacity.project4.BuildConfig
@@ -26,17 +25,16 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.material.snackbar.Snackbar
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 18,July,2021
  */
 
-@AndroidEntryPoint
 class RemaindersFragment : BaseFragment(), RemainderAdapterCallback {
     private lateinit var binding: FragmentRemaindersBinding
-    private val viewModel by viewModels<RemainderViewModel>()
+    val viewModel: RemainderViewModel by viewModel()
     private lateinit var adapter: RemainderAdapter
 
 

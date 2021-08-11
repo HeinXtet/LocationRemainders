@@ -20,13 +20,10 @@ import org.junit.runner.RunWith
 /**
  * Created by heinhtet deevvdd@gmail.com on 10,August,2021
  */
-@HiltAndroidTest
 @MediumTest
 @RunWith(AndroidJUnit4::class)
 class LoginFragmentTest {
 
-    @get:Rule()
-    var hiltAndroidRule = HiltAndroidRule(this)
 
     @Before
     fun logoutFirst() {

@@ -5,12 +5,11 @@ import androidx.room.Room
 import com.udacity.project4.data.source.local.RemaindersDatabase
 import com.udacity.project4.data.source.local.RemaindersLocalDataSource
 import com.udacity.project4.domain.model.Remainder
-import javax.inject.Inject
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 19,July,2021
  */
-class RemaindersRepositoryImpl @Inject constructor(private val remaindersLocalDataSource: RemainderDataSource) :
+class RemaindersRepositoryImpl constructor(private val remaindersLocalDataSource: RemainderDataSource) :
     RemaindersRepository {
 
 

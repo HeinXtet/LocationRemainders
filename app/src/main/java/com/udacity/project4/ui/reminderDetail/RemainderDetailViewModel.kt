@@ -6,15 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.udacity.project4.data.source.RemaindersRepository
 import com.udacity.project4.domain.model.Remainder
 import com.udacity.project4.ui.base.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 23,July,2021
  */
-@HiltViewModel
-class RemainderDetailViewModel @Inject constructor(private val repository: RemaindersRepository) :
+class RemainderDetailViewModel constructor(private val repository: RemaindersRepository) :
     BaseViewModel() {
     private val _remainder = MutableLiveData<Remainder>()
 

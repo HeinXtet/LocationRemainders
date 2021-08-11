@@ -7,16 +7,13 @@ import com.udacity.project4.domain.model.Remainder
 import com.udacity.project4.ui.base.BaseViewModel
 import com.udacity.project4.utils.Event
 import com.google.android.gms.maps.model.PointOfInterest
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 19,July,2021
  */
 
-@HiltViewModel
-class AddRemainderViewModel @Inject constructor(private val repository: RemaindersRepository) :
+class AddRemainderViewModel constructor(private val repository: RemaindersRepository) :
     BaseViewModel() {
 
     private val _selectedPOI = MutableLiveData<PointOfInterest?>()

@@ -21,7 +21,6 @@ import com.google.firebase.auth.FirebaseAuth
  */
 class LoginFragment : BaseFragment() {
 
-
     private lateinit var binding: FragmentLoginBinding
     private val viewModel by viewModels<LoginViewModel>()
 

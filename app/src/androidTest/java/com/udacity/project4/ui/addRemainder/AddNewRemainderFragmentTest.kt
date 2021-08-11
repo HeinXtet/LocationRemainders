@@ -24,13 +24,9 @@ import org.mockito.Mockito.verify
 /**
  * Created by heinhtet deevvdd@gmail.com on 10,August,2021
  */
-@HiltAndroidTest
 @MediumTest
 @RunWith(AndroidJUnit4::class)
 class AddNewRemainderFragmentTest {
-    @get:Rule()
-    var hiltAndroidRule = HiltAndroidRule(this)
-
     @Test
     fun addNewRemainderFragment_isDisplayedSnackBarAndNavigateMap() {
         val mockNavController = mock(NavController::class.java)

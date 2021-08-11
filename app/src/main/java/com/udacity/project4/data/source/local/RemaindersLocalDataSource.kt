@@ -3,13 +3,12 @@ package com.udacity.project4.data.source.local
 import androidx.lifecycle.LiveData
 import com.udacity.project4.data.source.RemainderDataSource
 import com.udacity.project4.domain.model.Remainder
-import javax.inject.Inject
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 19,July,2021
  */
 
-class RemaindersLocalDataSource @Inject constructor(private val dao: RemaindersDao) :
+class RemaindersLocalDataSource  constructor(private val dao: RemaindersDao) :
     RemainderDataSource {
     override suspend fun saveRemainder(remainder: Remainder) {
         dao.insertRemainder(remainder)

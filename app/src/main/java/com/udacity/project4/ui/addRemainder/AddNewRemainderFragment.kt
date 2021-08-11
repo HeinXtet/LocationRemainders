@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.udacity.project4.MainActivity
 import com.udacity.project4.R
@@ -25,16 +24,15 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.PointOfInterest
 import com.google.android.material.snackbar.Snackbar
 import com.udacity.project4.utils.safeNavigate
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 19,July,2021
  */
-@AndroidEntryPoint
 class AddNewRemainderFragment : BaseFragment() {
 
-    private val viewModel: AddRemainderViewModel by viewModels()
+    val viewModel: AddRemainderViewModel by viewModel()
     private lateinit var binding: FragmentAddNewRemainderBinding
 
     private lateinit var geofencingClient: GeofencingClient
@@ -66,9 +64,8 @@ class AddNewRemainderFragment : BaseFragment() {
         setupActions()
 
 
-
         // avoid on testing process
-        if(activity is MainActivity){
+        if (activity is MainActivity) {
             getBackStackData<PointOfInterest>(SELECTED_POI) { data ->
                 Toast.makeText(requireContext(), data.name, Toast.LENGTH_SHORT).show()
                 viewModel.updatePOI(data)

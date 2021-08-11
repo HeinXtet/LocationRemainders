@@ -11,16 +11,15 @@ import com.udacity.project4.R
 import com.udacity.project4.databinding.FragmentRemainderDetailBinding
 import com.udacity.project4.geofence.GeofenceUtils
 import com.udacity.project4.ui.base.BaseFragment
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 22,July,2021
  */
-@AndroidEntryPoint
 class RemainderDetailFragment : BaseFragment() {
 
     private lateinit var binding: FragmentRemainderDetailBinding
-    private val viewModel: RemainderDetailViewModel by viewModels()
+    val viewModel: RemainderDetailViewModel by viewModel()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

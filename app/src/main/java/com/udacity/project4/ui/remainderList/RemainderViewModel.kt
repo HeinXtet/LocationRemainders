@@ -10,17 +10,14 @@ import com.udacity.project4.domain.model.Remainder
 import com.udacity.project4.ui.base.BaseViewModel
 import com.udacity.project4.utils.Event
 import com.firebase.ui.auth.AuthUI
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 19,July,2021
  */
-@HiltViewModel
-class RemainderViewModel @Inject constructor(private val repository: RemaindersRepository) :
+class RemainderViewModel constructor(private val repository: RemaindersRepository) :
     BaseViewModel() {
 
     private val _logoutEvent = MutableLiveData<Event<Unit>>()

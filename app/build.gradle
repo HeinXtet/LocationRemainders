@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
     id 'com.google.gms.google-services'
     id "androidx.navigation.safeargs.kotlin"
     id "kotlin-parcelize"
@@ -19,8 +18,8 @@ android {
         versionCode 1
         versionName "1.0"
 
-//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunner "com.deevvdd.locationremainder.CustomTestRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "com.deevvdd.locationremainder.CustomTestRunner"
 
     }
 
@@ -47,14 +46,6 @@ android {
         exclude "META-INF/licenses/**"
         exclude "META-INF/AL2.0"
         exclude "META-INF/LGPL2.1"
-    }
-
-    kapt {
-        arguments {
-            // Make Hilt share the same definition of Components in tests instead of
-            // creating a new set of Components per test class.
-            arg("dagger.hilt.shareTestComponents", "true")
-        }
     }
 }
 
@@ -96,13 +87,13 @@ dependencies {
     implementation("androidx.navigation:navigation-dynamic-features-fragment:$navVersion")
     androidTestImplementation("androidx.navigation:navigation-testing:$navVersion")
 
-
-    // dagger hilt
-    implementation("com.google.dagger:hilt-android:$hiltVersion")
-    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
-
-    testImplementation("com.google.dagger:hilt-android-testing:2.38.1")
-    kaptTest("com.google.dagger:hilt-android-compiler:2.38.1")
+//
+//    // dagger hilt
+//    implementation("com.google.dagger:hilt-android:$hiltVersion")
+//    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
+//
+//    testImplementation("com.google.dagger:hilt-android-testing:2.38.1")
+//    kaptTest("com.google.dagger:hilt-android-compiler:2.38.1")
 
 
 
@@ -146,6 +137,8 @@ dependencies {
 
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
 
+    androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
+
 
     // Testing code should not be included in the main code.
     // Once https://issuetracker.google.com/128612536 is fixed this can be fixed.
@@ -167,6 +160,22 @@ dependencies {
 
     // readable unit test library
     testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
+
+
+    // koin
+    implementation "io.insert-koin:koin-android:$koin_version"
+//
+//    // koin test
+//    testImplementation ("org.koin:koin-test:2.0.1") { exclude group: 'org.mockito' }
+//
+//
+//    // Koin for JUnit 4
+////    testImplementation "io.insert-koin:koin-test-junit4:$koin_version"
+//
+//    // Instrumented testing
+//
+//    androidTestImplementation ("org.koin:koin-test:2.0.1") { exclude group: 'org.mockito' }
+
 
 
 

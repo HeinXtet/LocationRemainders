@@ -19,6 +19,8 @@ import com.udacity.project4.geofence.GeofenceUtils
 import com.udacity.project4.ui.base.BaseFragment
 import com.udacity.project4.utils.getBackStackData
 import com.google.android.gms.location.Geofence
+import com.google.android.gms.location.Geofence.GEOFENCE_TRANSITION_ENTER
+import com.google.android.gms.location.Geofence.NEVER_EXPIRE
 import com.google.android.gms.location.GeofencingClient
 import com.google.android.gms.location.GeofencingRequest
 import com.google.android.gms.location.LocationServices
@@ -124,8 +126,8 @@ class AddNewRemainderFragment : BaseFragment() {
                     geofenceData.latLng.longitude,
                     GeofenceUtils.GEOFENCE_RADIUS_IN_METERS
                 )
-                .setExpirationDuration(GeofenceUtils.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+                .setExpirationDuration(NEVER_EXPIRE)
+                .setTransitionTypes(GEOFENCE_TRANSITION_ENTER)
                 .build()
 
             val geofencingRequest = GeofencingRequest.Builder()

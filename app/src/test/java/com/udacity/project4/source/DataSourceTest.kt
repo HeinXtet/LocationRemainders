@@ -37,7 +37,7 @@ class DataSourceTest {
         val remainder = TestModelUtils.getTestRemainder()
         dataSource.saveRemainder(remainder)
 
-        val savedRemainder = dataSource.getRemainderById(remainder.placeId)
+        val savedRemainder = dataSource.getRemainderById(remainder.id)
 
         assertThat(remainder.title, `is`(savedRemainder?.title))
     }
@@ -55,7 +55,7 @@ class DataSourceTest {
 
         dataSource.deleteRemainder(remainder)
 
-        assertThat(dataSource.getRemainderById(remainder.placeId) == null, `is`(true))
+        assertThat(dataSource.getRemainderById(remainder.id) == null, `is`(true))
 
     }
 

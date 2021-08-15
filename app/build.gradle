@@ -160,13 +160,7 @@ dependencies {
     // koin
     implementation "io.insert-koin:koin-android:$koin_version"
 
-//    // koin test
-//    testImplementation ("org.koin:koin-test:2.0.1") { exclude group: 'org.mockito' }
-//
-//    // Instrumented testing
-//    androidTestImplementation ("org.koin:koin-test:2.0.1") { exclude group: 'org.mockito' }
-
-
+    androidTestImplementation('org.koin:koin-test:2.0.1') { exclude group: 'org.mockito' }
 
 
 }

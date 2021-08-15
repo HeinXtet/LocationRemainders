@@ -60,7 +60,7 @@ class RoomDatabaseTest {
         remainderDao.insertRemainder(remainder)
 
         // WHEN - Get the task by id from the database.
-        val loadedRemainder = remainderDao.getRemainderById(remainder.placeId)
+        val loadedRemainder = remainderDao.getRemainderById(remainder.id)
 
         // THEN - The loaded data contains the expected values.
         assertThat(loadedRemainder as Remainder, notNullValue())
@@ -69,7 +69,6 @@ class RoomDatabaseTest {
         assertThat(loadedRemainder.description, `is`(remainder.description))
         assertThat(loadedRemainder.latitude, `is`(remainder.latitude))
         assertThat(loadedRemainder.longitude, `is`(remainder.longitude))
-        assertThat(loadedRemainder.placeId, `is`(remainder.placeId))
         assertThat(loadedRemainder.place, `is`(remainder.place))
     }
 
@@ -79,7 +78,7 @@ class RoomDatabaseTest {
     fun saveRemainder_read_returnEqual() = runBlocking {
         val remainder: Remainder = TestModelUtils.getTestRemainder()
         remainderDao.insertRemainder(remainder)
-        val byPlaceId = remainderDao.getRemainderById(remainder.placeId)
+        val byPlaceId = remainderDao.getRemainderById(remainder.id)
         assertThat(byPlaceId, equalTo(remainder))
     }
 
@@ -108,7 +107,7 @@ class RoomDatabaseTest {
         val remainder = TestModelUtils.getTestRemainder()
         remainderDao.insertRemainder(remainder)
         remainderDao.updateRemainder(remainder.copy(title = "Updated"))
-        val updatedRemainder = remainderDao.getRemainderById((remainder.placeId))
+        val updatedRemainder = remainderDao.getRemainderById((remainder.id))
         assertThat(updatedRemainder?.title, `is`("Updated"))
     }
 }

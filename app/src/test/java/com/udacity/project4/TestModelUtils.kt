@@ -14,7 +14,6 @@ object TestModelUtils {
             0.0,
             0.0,
             "place",
-            "placeId"
         )
     }
 }

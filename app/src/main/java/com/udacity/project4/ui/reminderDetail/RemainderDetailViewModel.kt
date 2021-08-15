@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 /**
  * Created by heinhtet deevvdd@gmail.com on 23,July,2021
  */
-class RemainderDetailViewModel constructor(private val repository: RemaindersRepository) :
+class RemainderDetailViewModel constructor(repository: RemaindersRepository) :
     BaseViewModel() {
     private val _remainder = MutableLiveData<Remainder>()
 

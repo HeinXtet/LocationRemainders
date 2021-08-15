@@ -14,7 +14,6 @@ object TestAndroidModelUtils {
             0.0,
             0.0,
             "place",
-            "1"
         )
     }
 }

@@ -63,7 +63,7 @@ class RemaindersFragmentTest : TestWatcher() {
             )
         verify(navController).safeNavigate(
             RemaindersFragmentDirections.actionRemaindersFragmentToRemainderDetailFragment(
-                remainder.placeId
+                remainder.id
             )
         )
     }

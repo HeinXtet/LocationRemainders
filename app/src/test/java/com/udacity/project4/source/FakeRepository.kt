@@ -28,7 +28,7 @@ class FakeRepository : RemaindersRepository {
     }
 
     override suspend fun getRemainderById(id: String): Remainder? {
-        return remainders.find { it.placeId == id }
+        return remainders.find { it.id == id }
     }
 
     override fun getRemainders(): List<Remainder> {

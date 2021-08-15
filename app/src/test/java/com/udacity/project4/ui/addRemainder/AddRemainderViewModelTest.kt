@@ -1,5 +1,6 @@
 package com.udacity.project4.ui.addRemainder
 
+import android.location.Address
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.udacity.project4.MainCoroutineRule
@@ -8,6 +9,7 @@ import com.udacity.project4.getOrAwaitValue
 import com.udacity.project4.source.FakeRepository
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PointOfInterest
+import com.udacity.project4.domain.model.Point
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
@@ -18,6 +20,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.*
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 20,July,2021
@@ -27,12 +30,11 @@ import org.junit.runner.RunWith
 class AddRemainderViewModelTest {
 
 
-
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
-    val mainCoroutineRule  = MainCoroutineRule()
+    val mainCoroutineRule = MainCoroutineRule()
 
 //    val coroutineDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
 
@@ -45,7 +47,7 @@ class AddRemainderViewModelTest {
     fun setup() {
         repository = FakeRepository()
         addRemainderViewModel = AddRemainderViewModel(repository)
-      //  Dispatchers.setMain(coroutineDispatcher)
+        //  Dispatchers.setMain(coroutineDispatcher)
     }
 
 
@@ -68,16 +70,11 @@ class AddRemainderViewModelTest {
         addRemainderViewModel.title.value = "test title"
         addRemainderViewModel.description.value = "test description"
         addRemainderViewModel.updatePOI(
-            PointOfInterest(
-                LatLng(0.0, 0.0),
-                "placeId",
-                "testPlace"
-            )
+            Point(LatLng(0.0, 0.0),Address(Locale.ENGLISH))
         )
         val isValid = addRemainderViewModel.isValidToSave()
         assertThat(isValid, `is`(true))
     }
-
     @Test
     fun checkValidToSaveNewRemainder_return_notValid() {
         addRemainderViewModel.title.value = "test title"
@@ -88,7 +85,7 @@ class AddRemainderViewModelTest {
     }
 
     @Test
-    fun addNewRemainder_dataAndSnackbarUpdated()  = mainCoroutineRule.runBlockingTest {
+    fun addNewRemainder_dataAndSnackbarUpdated() = mainCoroutineRule.runBlockingTest {
         addRemainderViewModel.title.value = "test title"
         addRemainderViewModel.description.value = "test description"
         addRemainderViewModel.savedRemainder()

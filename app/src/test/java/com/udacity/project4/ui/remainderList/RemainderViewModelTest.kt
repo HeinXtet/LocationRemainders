@@ -44,7 +44,6 @@ class RemainderViewModelTest {
                 0.0,
                 0.0,
                 "place",
-                "placeId"
             )
         )
         val isEmpty = viewModel.isEmptyRemainders.getOrAwaitValue()

@@ -29,7 +29,7 @@ class FakeAndroidRepository : RemaindersRepository {
     }
 
     override suspend fun getRemainderById(id: String): Remainder? {
-        val remainder  = remainders.findLast { it.placeId == id }
+        val remainder  = remainders.findLast { it.id == id }
         Timber.d("getRemainderById ${remainder?.title}")
         return remainder
     }

@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.udacity.project4.domain.model.Remainder
 import com.udacity.project4.getOrAwaitValue
 import com.udacity.project4.source.FakeRepository
+import com.udacity.project4.MainCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
@@ -24,6 +25,8 @@ class RemainderViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
+    @get:Rule
+    val mainCoroutineRule = MainCoroutineRule()
 
     private lateinit var viewModel: RemainderViewModel
     private lateinit var fakeRepository: FakeRepository
@@ -63,6 +66,14 @@ class RemainderViewModelTest {
         fakeRepository.setShouldReturnError(true)
         val remainder = fakeRepository.getRemainderById("1")
         assertThat(remainder == null, `is`(true))
+    }
+
+
+    @Test
+    fun data_showsLoading() = runBlockingTest {
+        mainCoroutineRule.pauseDispatcher()
+        viewModel.updateLoading(true)
+        assertThat(viewModel.loading.getOrAwaitValue(), `is`(true))
     }
 
 }

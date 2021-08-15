@@ -21,7 +21,7 @@ class RemainderViewModel constructor(private val repository: RemaindersRepositor
     BaseViewModel() {
 
     private val _logoutEvent = MutableLiveData<Event<Unit>>()
-    private val _permissionStatus = MutableLiveData<Boolean>()
+    val loading = MutableLiveData<Boolean>(false)
 
 
     private val _remainders: LiveData<List<Remainder>> =
@@ -44,6 +44,7 @@ class RemainderViewModel constructor(private val repository: RemaindersRepositor
         it.isNullOrEmpty()
     }
 
+
     val isEmptyRemainders: LiveData<Boolean>
         get() = _isEmptyRemainders
 
@@ -58,5 +59,9 @@ class RemainderViewModel constructor(private val repository: RemaindersRepositor
             repository.deleteRemainder(remainder)
         }
         showSnackBarInt.value = Event(R.string.remainder_deleted)
+    }
+
+    fun updateLoading(value: Boolean) {
+        loading.postValue(value)
     }
 }

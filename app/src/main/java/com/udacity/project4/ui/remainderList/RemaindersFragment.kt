@@ -64,17 +64,6 @@ class RemaindersFragment : BaseFragment(), RemainderAdapterCallback {
         setHasOptionsMenu(true)
     }
 
-    override fun onStart() {
-        super.onStart()
-        (requireActivity() as MainActivity).checkPermissionsAndStartGeofencing(
-            onPermissionGranted = {
-                                  viewModel.updatePermissionStatus(true)
-            },
-            onPermissionDenied = {
-                viewModel.updatePermissionStatus(false)
-            })
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.remainder_menu, menu)

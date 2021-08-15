@@ -34,6 +34,7 @@ class RemainderDetailFragment : BaseFragment() {
         val placeId = arguments?.getString(GeofenceUtils.GEOFENCE_EXTRA)
         viewModel.getRemainderByPlaceId(placeId.orEmpty())
         viewModel.remainder.observe(viewLifecycleOwner, { remainder ->
+            if(requireActivity() is AppCompatActivity)
             (requireActivity() as AppCompatActivity).supportActionBar?.title = remainder.title
         })
         return binding.root

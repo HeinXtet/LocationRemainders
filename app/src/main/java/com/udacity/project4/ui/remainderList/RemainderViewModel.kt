@@ -21,6 +21,10 @@ class RemainderViewModel constructor(private val repository: RemaindersRepositor
     BaseViewModel() {
 
     private val _logoutEvent = MutableLiveData<Event<Unit>>()
+    private val _permissionStatus = MutableLiveData<Boolean>()
+
+    val isPermissionGranted: LiveData<Boolean>
+        get() = _permissionStatus
 
     private val _remainders: LiveData<List<Remainder>> =
         repository.observeRemainders()
@@ -56,5 +60,9 @@ class RemainderViewModel constructor(private val repository: RemaindersRepositor
             repository.deleteRemainder(remainder)
         }
         showSnackBarInt.value = Event(R.string.remainder_deleted)
+    }
+
+    fun updatePermissionStatus(status: Boolean) {
+        _permissionStatus.value = status
     }
 }

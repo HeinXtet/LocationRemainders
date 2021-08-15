@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.JobIntentService.enqueueWork
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.udacity.project4.MainActivity
@@ -23,7 +24,10 @@ import com.google.android.gms.location.GeofencingRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.PointOfInterest
 import com.google.android.material.snackbar.Snackbar
+import com.udacity.project4.domain.model.Point
+import com.udacity.project4.geofence.GeoJobService
 import com.udacity.project4.utils.safeNavigate
+import com.udacity.project4.utils.showSnackBar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -49,7 +53,6 @@ class AddNewRemainderFragment : BaseFragment() {
         )
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -63,22 +66,20 @@ class AddNewRemainderFragment : BaseFragment() {
         }
         setupActions()
 
-
         // avoid on testing process
         if (activity is MainActivity) {
-            getBackStackData<PointOfInterest>(SELECTED_POI) { data ->
-                Toast.makeText(requireContext(), data.name, Toast.LENGTH_SHORT).show()
+            getBackStackData<Point>(SELECTED_POI) { data ->
                 viewModel.updatePOI(data)
             }
         }
 
         viewModel.savedRemainderEvent.observe(viewLifecycleOwner, {
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.text_saved_remainder),
-                Toast.LENGTH_SHORT
-            ).show()
-            addGeofence()
+            (requireActivity() as MainActivity).checkPermissionsAndStartGeofencing(
+                onPermissionDenied = {},
+                onPermissionGranted = {
+                    binding.root.showSnackBar(getString(R.string.text_saved_remainder))
+                    addGeofence()
+                })
         })
 
         viewModel.showSnackBarInt.observe(viewLifecycleOwner, {
@@ -116,9 +117,8 @@ class AddNewRemainderFragment : BaseFragment() {
     private fun addGeofence() {
         val geofenceData = viewModel.poi.value
         geofenceData?.let {
-            Timber.d("Geofence place ID ${geofenceData.placeId}")
             val geofence = Geofence.Builder()
-                .setRequestId(geofenceData.placeId)
+                .setRequestId(viewModel.savedRemainder?.id)
                 .setCircularRegion(
                     geofenceData.latLng.latitude,
                     geofenceData.latLng.longitude,
@@ -138,19 +138,12 @@ class AddNewRemainderFragment : BaseFragment() {
                 addOnCompleteListener {
                     geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
                         addOnSuccessListener {
-                            Toast.makeText(
-                                requireActivity(), R.string.geofences_added,
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
+                            binding.root.showSnackBar(getString(R.string.geofences_added))
                             goToRemainders()
                             Timber.d("Add Geofence ${geofence.requestId}")
                         }
                         addOnFailureListener {
-                            Toast.makeText(
-                                requireActivity(), R.string.geofences_not_added,
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            binding.root.showSnackBar(getString(R.string.geofences_not_added))
                             if ((it.message != null)) {
                                 Timber.d("geofence not added ${it.message}")
                             }

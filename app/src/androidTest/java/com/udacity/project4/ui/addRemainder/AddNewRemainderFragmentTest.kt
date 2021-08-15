@@ -13,8 +13,6 @@ import androidx.test.filters.MediumTest
 import com.udacity.project4.R
 import com.udacity.project4.utils.launchFragmentInHiltContainer
 import com.udacity.project4.utils.safeNavigate
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

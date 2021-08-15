@@ -18,5 +18,4 @@ data class Remainder(
     val latitude: Double,
     val longitude: Double,
     val place: String,
-    val placeId: String
 )

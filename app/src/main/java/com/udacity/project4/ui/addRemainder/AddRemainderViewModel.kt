@@ -7,35 +7,39 @@ import com.udacity.project4.domain.model.Remainder
 import com.udacity.project4.ui.base.BaseViewModel
 import com.udacity.project4.utils.Event
 import com.google.android.gms.maps.model.PointOfInterest
+import com.udacity.project4.ServiceLocator
+import com.udacity.project4.domain.model.Point
 import kotlinx.coroutines.launch
+import java.util.*
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 19,July,2021
  */
 
-class AddRemainderViewModel constructor(private val repository: RemaindersRepository) :
+class AddRemainderViewModel constructor(remainderRepository: RemaindersRepository) :
     BaseViewModel() {
 
-    private val _selectedPOI = MutableLiveData<PointOfInterest?>()
+    private val repository = remainderRepository
 
+    private val _selectedPOI = MutableLiveData<Point?>()
 
     var title = MutableLiveData<String>()
     var description = MutableLiveData<String>()
+    var savedRemainder: Remainder? = null
 
 
-    fun updatePOI(data: PointOfInterest) {
+    fun updatePOI(data: Point) {
         _selectedPOI.value = data
     }
 
 
     private val _savedRemainderEvent = MutableLiveData<Event<Int>>()
 
-
     val savedRemainderEvent: LiveData<Event<Int>>
         get() = _savedRemainderEvent
 
 
-    val poi: LiveData<PointOfInterest?>
+    val poi: LiveData<Point?>
         get() = _selectedPOI
 
 
@@ -66,11 +70,11 @@ class AddRemainderViewModel constructor(private val repository: RemaindersReposi
                 description = description.value.orEmpty(),
                 longitude = _selectedPOI.value?.latLng?.longitude ?: 0.0,
                 latitude = _selectedPOI.value?.latLng?.latitude ?: 0.0,
-                place = _selectedPOI.value?.name.orEmpty(),
-                placeId = _selectedPOI.value?.placeId.orEmpty()
+                place = _selectedPOI.value?.address?.featureName.orEmpty(),
             )
+            savedRemainder = remainder
             viewModelScope.launch {
-                repository.saveReminder(remainder)
+                repository?.saveReminder(remainder)
                 title.value = ""
                 description.value = ""
                 savedRemainder()
@@ -79,7 +83,7 @@ class AddRemainderViewModel constructor(private val repository: RemaindersReposi
     }
 
 
-     fun savedRemainder() {
+    fun savedRemainder() {
         _savedRemainderEvent.value = Event(R.string.text_add_new_remainder_sucess)
     }
 }

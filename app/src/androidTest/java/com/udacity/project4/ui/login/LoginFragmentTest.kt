@@ -10,8 +10,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.udacity.project4.R
 import com.udacity.project4.utils.launchFragmentInHiltContainer
 import com.google.firebase.auth.FirebaseAuth
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="@dimen/spacing_small"
                 android:paddingVertical="@dimen/spacing_medium"
-                android:text="@{vm.poi.name.toString()}"
+                android:text="@{vm.poi.address.featureName.toString()}"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constrainedWidth="true"

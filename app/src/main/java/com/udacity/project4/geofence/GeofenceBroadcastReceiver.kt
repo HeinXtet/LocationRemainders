@@ -11,6 +11,7 @@ import com.udacity.project4.data.source.RemaindersRepository
 import com.udacity.project4.geofence.GeofenceUtils.errorMessage
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
+import com.udacity.project4.ui.addRemainder.AddNewRemainderFragment.Companion.ACTION_GEOFENCE_EVENT
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,45 +22,9 @@ import timber.log.Timber
  */
 class GeofenceBroadcastReceiver : BroadcastReceiver() {
 
-
-    lateinit var repository: RemaindersRepository
-
-    override fun onReceive(context: Context, intent: Intent?) {
-        repository = (context.applicationContext as RemainderApp).remainderRepository
-        val geofencingEvent = GeofencingEvent.fromIntent(intent)
-        Timber.d("Geofence Receiver ${geofencingEvent.triggeringGeofences.size}")
-        if (geofencingEvent.hasError()) {
-            val errorMessage = errorMessage(context, geofencingEvent.errorCode)
-            Timber.d("$TAG error ${errorMessage}")
-            return
-        }
-
-        if (geofencingEvent.geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
-            Timber.d("$TAG error ${context.getString(R.string.geofence_entered)}")
-            val fenceId = when {
-                geofencingEvent.triggeringGeofences.isNotEmpty() ->
-                    geofencingEvent.triggeringGeofences[0].requestId
-                else -> {
-                    Timber.d("$TAG No Geofence Trigger Found! Abort mission!")
-                    return
-                }
-            }
-            Timber.d("request ID $fenceId")
-            CoroutineScope(Dispatchers.IO).launch {
-                val remainder = repository.getRemainderById(fenceId)
-                Timber.d("Geofence Remainder $remainder")
-                if (remainder != null) {
-                    val notificationManager = ContextCompat.getSystemService(
-                        context,
-                        NotificationManager::class.java
-                    ) as NotificationManager
-
-                    notificationManager.sendGeofenceEnteredNotification(
-                        context,
-                        remainder
-                    )
-                }
-            }
+    override fun onReceive(context: Context, intent: Intent) {
+        if (intent.action == ACTION_GEOFENCE_EVENT) {
+            GeoJobService.enqueueWork(context, intent)
         }
     }
 

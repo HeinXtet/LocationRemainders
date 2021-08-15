@@ -30,6 +30,7 @@ import androidx.navigation.NavDeepLinkBuilder
 import com.udacity.project4.MainActivity
 import com.udacity.project4.R
 import com.udacity.project4.domain.model.Remainder
+import java.util.*
 
 /*
  * We need to create a NotificationChannel associated with our CHANNEL_ID before sending a
@@ -71,17 +72,9 @@ fun pendingIntent(context: Context, placeId: String): PendingIntent {
 }
 
 fun NotificationManager.sendGeofenceEnteredNotification(context: Context, remainder: Remainder) {
-
-
+    val notiId = Date().time.toInt()
     val contentIntent = Intent(context, MainActivity::class.java)
-    contentIntent.putExtra(GeofenceUtils.GEOFENCE_EXTRA, remainder.placeId)
-    val contentPendingIntent = PendingIntent.getActivity(
-        context,
-        NOTIFICATION_ID,
-        contentIntent,
-        PendingIntent.FLAG_UPDATE_CURRENT
-    )
-
+    contentIntent.putExtra(GeofenceUtils.GEOFENCE_EXTRA, remainder.id)
     val mapImage = BitmapFactory.decodeResource(
         context.resources,
         R.drawable.map_small
@@ -99,16 +92,15 @@ fun NotificationManager.sendGeofenceEnteredNotification(context: Context, remain
             )
         )
         .setPriority(NotificationCompat.PRIORITY_HIGH)
-        .setContentIntent(pendingIntent(context, remainder.placeId))
+        .setContentIntent(pendingIntent(context, remainder.id))
         .setSmallIcon(R.drawable.map_small)
         .setStyle(bigPicStyle)
-        .setAutoCancel(false)
+        .setAutoCancel(true)
         .setLargeIcon(mapImage)
 
-    notify(NOTIFICATION_ID, builder.build())
+    notify(notiId, builder.build())
 }
 
-private const val NOTIFICATION_ID = 33
 private const val CHANNEL_ID = "LocationRemainderChannel"
 
 

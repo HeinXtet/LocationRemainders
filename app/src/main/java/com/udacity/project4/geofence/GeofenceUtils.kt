@@ -1,8 +1,11 @@
 package com.udacity.project4.geofence
 
 import android.content.Context
+import android.location.Address
+import android.location.Geocoder
 import com.udacity.project4.R
 import com.google.android.gms.location.GeofenceStatusCodes
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -27,6 +30,18 @@ object GeofenceUtils {
                 R.string.geofence_too_many_pending_intents
             )
             else -> resources.getString(R.string.unknown_geofence_error)
+        }
+    }  fun getAddress(context: Context, latitude: Double, longitude: Double): Address? {
+        val geocoder: Geocoder = Geocoder(context, Locale.getDefault())
+        val addresses: List<Address> = geocoder.getFromLocation(
+            latitude,
+            longitude,
+            1
+        )
+        return if (addresses.isNotEmpty()) {
+            addresses[0]
+        } else {
+            null
         }
     }
 

@@ -9,12 +9,14 @@ import org.koin.dsl.module
  * Created by heinhtet deevvdd@gmail.com on 11,August,2021
  */
 val databaseModule = module {
-    single<RemaindersDatabase> {
-        Room.databaseBuilder(get(), RemaindersDatabase::class.java, "Remainders.db")
-            .fallbackToDestructiveMigration().build()
+    single {
+        Room.databaseBuilder(get(),
+            RemaindersDatabase::class.java, "Remainders.db")
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
-    single<RemaindersDao> {
+    single {
         (get() as RemaindersDatabase).remaindersDao()
     }
 }

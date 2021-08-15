@@ -17,9 +17,12 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
+import com.udacity.project4.MainActivity
+import com.udacity.project4.domain.model.Point
+import com.udacity.project4.geofence.GeofenceUtils
+import com.udacity.project4.utils.LocationHandler
 import timber.log.Timber
 import java.util.*
-
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 19,July,2021
@@ -29,6 +32,9 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentMapBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var map: GoogleMap
+
+    private lateinit var locationHandler: LocationHandler
+
     private val viewModel: MapViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +51,18 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         }
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         setHasOptionsMenu(true)
+        locationHandler = LocationHandler(requireActivity() as MainActivity, {
+            val currentLocation = LatLng(it.latitude, it.longitude)
+            zoomToUserLocation(currentLocation)
+
+        }, {})
+        viewModel.isPermissionGranted.observe(viewLifecycleOwner, {
+            if (it) {
+                setupMap()
+                locationHandler.requestLocation()
+
+            }
+        })
         return binding.root
     }
 
@@ -57,8 +75,22 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
     override fun onMapReady(p0: GoogleMap?) {
         p0?.let {
             map = it
-            setupMap()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        checkUserLocation()
+    }
+
+    private fun checkUserLocation() {
+        (requireActivity() as MainActivity).checkPermissionsAndStartGeofencing(
+            onPermissionGranted = {
+                viewModel.updatePermissionStatus(true)
+            },
+            onPermissionDenied = {
+                viewModel.updatePermissionStatus(false)
+            })
     }
 
     @SuppressLint("MissingPermission")
@@ -76,35 +108,34 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         } catch (e: Resources.NotFoundException) {
             Timber.d("Can't find style. Error: $e")
         }
-
         map.isMyLocationEnabled = true
-        zoomToUserLocation()
-        map.setOnPoiClickListener { poi ->
+        map.setOnMapClickListener { latLng ->
             map.clear()
             val snippet = String.format(
                 Locale.getDefault(),
                 "Lat: %1$.5f, Long: %2$.5f",
-                poi.latLng.latitude,
-                poi.latLng.longitude
+                latLng.latitude,
+                latLng.longitude
+            )
+            val address = GeofenceUtils.getAddress(
+                requireContext(),
+                latitude = latLng.latitude,
+                longitude = latLng.longitude
             )
             val poiMarker = map.addMarker(
                 MarkerOptions()
-                    .position(poi.latLng)
-                    .title(poi.name)
+                    .position(latLng)
+                    .title(address?.featureName ?: "")
                     .snippet(snippet)
             )
             poiMarker.showInfoWindow()
-            viewModel.updatePoi(poi)
+            viewModel.updatePoi(Point(latLng, address))
         }
-
     }
 
     @SuppressLint("MissingPermission")
-    private fun zoomToUserLocation() {
-        fusedLocationClient.lastLocation.addOnSuccessListener {
-            val currentLocation = LatLng(it.latitude, it.longitude)
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f))
-        }
+    private fun zoomToUserLocation(latLng: LatLng) {
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -13,19 +13,15 @@ import com.udacity.project4.ServiceLocator
 import com.udacity.project4.TestAndroidModelUtils
 import com.udacity.project4.data.source.RemaindersRepository
 import com.udacity.project4.geofence.GeofenceUtils
+import com.udacity.project4.source.FakeAndroidRepository
 import com.udacity.project4.ui.reminderDetail.RemainderDetailFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.core.context.loadKoinModules
-import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
-import org.koin.core.context.unloadKoinModules
-import org.koin.test.KoinTest
-import org.koin.test.inject
 
 
 /**
@@ -34,15 +30,15 @@ import org.koin.test.inject
 @ExperimentalCoroutinesApi
 @MediumTest
 @RunWith(AndroidJUnit4::class)
-class RemainderDetailFragmentTest : KoinTest {
+class RemainderDetailFragmentTest {
 
-    private val repository: RemaindersRepository by inject()
+    private lateinit var repository: RemaindersRepository
 
     @Before
     fun initRepository() {
-
+        repository = FakeAndroidRepository()
+        ServiceLocator.repository = repository
     }
-
 
     @After
     fun cleanUpRepository() {
@@ -50,7 +46,7 @@ class RemainderDetailFragmentTest : KoinTest {
     }
 
     @Test
-    fun remainderDetails_DisplayedInUi() = runBlocking {
+    fun remainderDetails_DisplayedInUi() = runBlockingTest {
         val remainder = TestAndroidModelUtils.getTestRemainder()
         repository.saveReminder(remainder)
         val bundle = Bundle()

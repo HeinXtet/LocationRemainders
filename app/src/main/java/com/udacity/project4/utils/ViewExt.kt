@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 18,July,2021
@@ -28,14 +29,20 @@ fun NavController.safeNavigate(direction: NavDirections) {
 }
 
 
-fun <T : Any> Fragment.setBackStackData(key: String, data : T, doBack : Boolean = true) {
+fun View.showSnackBar(message: String, duration: Int = 2000) {
+    Snackbar.make(this, message, duration).show()
+}
+
+
+fun <T : Any> Fragment.setBackStackData(key: String, data: T, doBack: Boolean = true) {
     findNavController().previousBackStackEntry?.savedStateHandle?.set(key, data)
-    if(doBack)
+    if (doBack)
         findNavController().popBackStack()
 }
 
 fun <T : Any> Fragment.getBackStackData(key: String, result: (T) -> (Unit)) {
-    findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<T>(key)?.observe(viewLifecycleOwner) {
-        result(it)
-    }
+    findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<T>(key)
+        ?.observe(viewLifecycleOwner) {
+            result(it)
+        }
 }

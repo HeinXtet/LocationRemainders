@@ -23,6 +23,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_api_key" />
         <receiver android:name="com.udacity.project4.geofence.GeofenceBroadcastReceiver" />
+        <service
+            android:name=".geofence.GeoJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
     </application>
 </manifest>

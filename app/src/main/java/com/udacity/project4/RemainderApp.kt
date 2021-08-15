@@ -31,17 +31,11 @@ class RemainderApp : Application() {
             androidLogger(Level.ERROR)
             androidContext(this@RemainderApp)
             modules(
-                appModule
+                databaseModule,
+                repositoryyModule,
+                dataSourceModulee,
+                viewModelModule
             )
         }
-    }
-
-    companion object {
-        val appModule = listOf(
-            databaseModule,
-            repositoryyModule,
-            dataSourceModulee,
-            viewModelModule
-        )
     }
 }

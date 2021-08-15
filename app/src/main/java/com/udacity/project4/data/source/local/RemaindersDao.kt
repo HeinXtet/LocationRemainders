@@ -18,12 +18,11 @@ interface RemaindersDao {
     @Query("SELECT * FROM remainder")
     fun getRemainders(): List<Remainder>
 
-
     @Delete
     fun deleteRemainder(remainder: Remainder)
 
 
-    @Query("SELECT * FROM remainder WHERE placeId = :id LIMIT 1")
+    @Query("SELECT * FROM remainder WHERE remainderId = :id LIMIT 1")
     suspend fun getRemainderById(id: String): Remainder?
 
 

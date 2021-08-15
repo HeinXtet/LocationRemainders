@@ -41,7 +41,9 @@ object ServiceLocator {
         val result = Room.databaseBuilder(
             context.applicationContext,
             RemaindersDatabase::class.java, "Remainders.db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
         database = result
         return result
     }

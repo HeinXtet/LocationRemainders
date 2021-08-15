@@ -149,6 +149,10 @@ class MainActivity : AppCompatActivity() {
                     })
                 }.show()
             _onPermissionDenied?.invoke()
+        } else if (requestCode == REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults[LOCATION_PERMISSION_INDEX] == PackageManager.PERMISSION_GRANTED) {
+                _onPermissionGranted?.invoke()
+            }
         } else {
             checkDeviceLocationSettingsAndStartGeofence(resolve = false)
         }
@@ -200,6 +204,23 @@ class MainActivity : AppCompatActivity() {
             checkDeviceLocationSettingsAndStartGeofence()
         } else {
             requestForegroundAndBackgroundLocationPermissions()
+        }
+    }
+
+    fun requestForegroundLocationPermission(
+        onPermissionGranted: () -> Unit,
+        onPermissionDenied: () -> Unit
+    ) {
+        this._onPermissionGranted = onPermissionGranted
+        this._onPermissionDenied = onPermissionDenied
+        if (foregroundAndBackgroundLocationPermissionApproved(false)) {
+            onPermissionGranted()
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+            )
         }
     }
 

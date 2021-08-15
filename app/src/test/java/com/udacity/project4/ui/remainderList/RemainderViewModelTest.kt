@@ -72,8 +72,15 @@ class RemainderViewModelTest {
     @Test
     fun data_showsLoading() = runBlockingTest {
         mainCoroutineRule.pauseDispatcher()
-        viewModel.updateLoading(true)
+        viewModel.loadReminders()
         assertThat(viewModel.loading.getOrAwaitValue(), `is`(true))
+    }
+
+    @Test
+    fun remindersUnavailable_showsError() = runBlockingTest {
+        fakeRepository.setShouldReturnError(true)
+        viewModel.loadReminders()
+        assertThat(viewModel.showSnackBar.getOrAwaitValue(), `is`(notNullValue()))
     }
 
 }

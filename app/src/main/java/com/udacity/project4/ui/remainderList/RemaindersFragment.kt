@@ -60,6 +60,12 @@ class RemaindersFragment : BaseFragment(), RemainderAdapterCallback {
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadReminders()
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)

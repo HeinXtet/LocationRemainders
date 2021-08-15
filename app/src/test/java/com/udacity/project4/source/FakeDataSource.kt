@@ -3,6 +3,7 @@ package com.udacity.project4.source
 import androidx.lifecycle.LiveData
 import com.udacity.project4.data.source.RemainderDataSource
 import com.udacity.project4.domain.model.Remainder
+import com.udacity.project4.utils.Result
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 20,July,2021
@@ -36,10 +37,10 @@ class FakeDataSource : RemainderDataSource {
         return remainders.findLast { id == it.id }
     }
 
-    override fun getRemainders(): List<Remainder> {
+    override suspend fun getRemainders(): Result<List<Remainder>> {
         if (shouldReturnError) {
-            return emptyList()
+            return Result.Error(message = "no remainder found exception")
         }
-        return remainders.toList()
+        return Result.Success(remainders.toList())
     }
 }

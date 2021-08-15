@@ -22,6 +22,7 @@ import com.udacity.project4.MainActivity
 import com.udacity.project4.domain.model.Point
 import com.udacity.project4.geofence.GeofenceUtils
 import com.udacity.project4.utils.LocationHandler
+import com.udacity.project4.utils.showSnackBar
 import timber.log.Timber
 import java.util.*
 
@@ -79,6 +80,17 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
     }
 
+    override fun onStart() {
+        super.onStart()
+        (requireActivity() as MainActivity).requestForegroundLocationPermission(
+            onPermissionGranted = {
+                viewModel.updatePermissionStatus(true)
+            },
+            onPermissionDenied = {
+                binding.root.showSnackBar(getString(R.string.text_unable_to_get_location))
+            })
+    }
+
     override fun onMapReady(p0: GoogleMap?) {
         p0?.let {
             map = it
@@ -109,25 +121,33 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
             Timber.d("Can't find style. Error: $e")
         }
         map.setOnMapClickListener { latLng ->
-            map.clear()
-            val snippet = String.format(
-                Locale.getDefault(),
-                "Lat: %1$.5f, Long: %2$.5f",
-                latLng.latitude,
-                latLng.longitude
-            )
-
-            val poiMarker = map.addMarker(
-                MarkerOptions()
-                    .position(latLng)
-                    .title("Selected Locations")
-                    .snippet(snippet)
-            )
-            poiMarker.showInfoWindow()
-            val address = Address(Locale.ENGLISH)
-            address.featureName = snippet
-            viewModel.updatePoi(Point(latLng, address))
+            updateSelectedLocation(latLng = latLng)
         }
+        map.setOnPoiClickListener { updateSelectedLocation(latLng = it.latLng, name = it.name) }
+    }
+
+    private fun updateSelectedLocation(latLng: LatLng, name: String = "") {
+        map.clear()
+        val snippet = String.format(
+            Locale.getDefault(),
+            "Lat: %1$.5f, Long: %2$.5f",
+            latLng.latitude,
+            latLng.longitude
+        )
+
+        val poiMarker = map.addMarker(
+            MarkerOptions()
+                .position(latLng)
+                .title("Selected Locations")
+                .snippet(snippet)
+        )
+        poiMarker.showInfoWindow()
+        val address = Address(Locale.ENGLISH)
+        address.featureName = snippet
+        if (name.isNotEmpty()) {
+            address.featureName = name
+        }
+        viewModel.updatePoi(Point(latLng, address))
     }
 
     @SuppressLint("MissingPermission")

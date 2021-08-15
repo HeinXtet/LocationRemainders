@@ -6,14 +6,16 @@ import com.udacity.project4.domain.model.Remainder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+import  com.udacity.project4.utils.Result
+
 /**
  * Created by heinhtet deevvdd@gmail.com on 19,July,2021
  */
 
-class RemaindersLocalDataSource  constructor(private val dao: RemaindersDao) :
+class RemaindersLocalDataSource constructor(private val dao: RemaindersDao) :
     RemainderDataSource {
     override suspend fun saveRemainder(remainder: Remainder) {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             dao.insertRemainder(remainder)
         }
     }
@@ -30,7 +32,11 @@ class RemaindersLocalDataSource  constructor(private val dao: RemaindersDao) :
         return dao.getRemainderById(id)
     }
 
-    override fun getRemainders(): List<Remainder> {
-        return dao.getRemainders()
+    override suspend fun getRemainders() = withContext(Dispatchers.IO) {
+        return@withContext try {
+            Result.Success(dao.getRemainders())
+        } catch (e: Exception) {
+            Result.Error(e.localizedMessage)
+        }
     }
 }

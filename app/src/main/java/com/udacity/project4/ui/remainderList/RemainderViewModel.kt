@@ -4,12 +4,14 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.viewModelScope
 import com.udacity.project4.R
 import com.udacity.project4.data.source.RemaindersRepository
 import com.udacity.project4.domain.model.Remainder
 import com.udacity.project4.ui.base.BaseViewModel
 import com.udacity.project4.utils.Event
 import com.firebase.ui.auth.AuthUI
+import com.udacity.project4.data.source.local.RemaindersDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,7 +21,7 @@ import kotlinx.coroutines.launch
  */
 class RemainderViewModel constructor(private val repository: RemaindersRepository) :
     BaseViewModel() {
-
+    val remindersList = MutableLiveData<List<Remainder>>()
     private val _logoutEvent = MutableLiveData<Event<Unit>>()
     val loading = MutableLiveData<Boolean>(false)
 
@@ -40,7 +42,7 @@ class RemainderViewModel constructor(private val repository: RemaindersRepositor
     }
 
 
-    private val _isEmptyRemainders = Transformations.map(_remainders) {
+    private val _isEmptyRemainders = Transformations.map(remindersList) {
         it.isNullOrEmpty()
     }
 
@@ -64,4 +66,36 @@ class RemainderViewModel constructor(private val repository: RemaindersRepositor
     fun updateLoading(value: Boolean) {
         loading.postValue(value)
     }
+
+    fun loadReminders() {
+        loading.value = true
+        viewModelScope.launch {
+            //interacting with the dataSource has to be through a coroutine
+            val result = repository.getRemainders()
+            loading.postValue(false)
+            when (result) {
+                is com.udacity.project4.utils.Result.Success<*> -> {
+                    val dataList = ArrayList<Remainder>()
+
+                    @Suppress("UNCHECKED_CAST")
+                    dataList.addAll((result.data as List<Remainder>).map { reminder ->
+                        //map the reminder data from the DB to the be ready to be displayed on the UI
+                        Remainder(
+                            title = reminder.title,
+                            description = reminder.description,
+                            latitude = reminder.latitude,
+                            longitude = reminder.longitude,
+                            place = reminder.place
+                        )
+                    })
+                    remindersList.value = dataList
+                }
+                is Error ->
+                    showSnackBar.value = Event(result.message.orEmpty())
+            }
+
+            //check if no data has to be shown
+        }
+    }
+
 }

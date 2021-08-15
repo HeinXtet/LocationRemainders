@@ -39,6 +39,7 @@ class RemaindersFragment : BaseFragment(), RemainderAdapterCallback {
     val viewModel: RemainderViewModel by viewModel()
     private lateinit var adapter: RemainderAdapter
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

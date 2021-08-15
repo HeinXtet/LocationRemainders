@@ -48,4 +48,12 @@ class RemainderRepositoryTest {
         assertThat(remainderRepository.getRemainders().isEmpty(), `is`(true))
     }
 
+
+    @Test
+    fun returnNullForRemainderById_whenError() = runBlockingTest{
+        fakeDataSource.setShouldReturnError(true)
+        val remainder = remainderRepository.getRemainderById("1")
+        assertThat(remainder==null, `is`(true))
+    }
+
 }

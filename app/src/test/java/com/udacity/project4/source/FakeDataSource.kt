@@ -11,7 +11,11 @@ class FakeDataSource : RemainderDataSource {
 
 
     private var remainders: MutableList<Remainder> = mutableListOf()
+    private var shouldReturnError = false
 
+    fun setShouldReturnError(shouldReturn: Boolean) {
+        this.shouldReturnError = shouldReturn
+    }
 
     override suspend fun saveRemainder(remainder: Remainder) {
         remainders.add(remainder)
@@ -26,10 +30,16 @@ class FakeDataSource : RemainderDataSource {
     }
 
     override suspend fun getRemainderById(id: String): Remainder? {
+        if (shouldReturnError) {
+            return null
+        }
         return remainders.findLast { id == it.id }
     }
 
     override fun getRemainders(): List<Remainder> {
+        if (shouldReturnError) {
+            return emptyList()
+        }
         return remainders.toList()
     }
 }

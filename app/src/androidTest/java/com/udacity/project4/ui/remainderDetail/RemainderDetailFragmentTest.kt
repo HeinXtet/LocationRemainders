@@ -1,7 +1,10 @@
 package com.udacity.project4.ui.remainderDetail
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
@@ -15,12 +18,18 @@ import com.udacity.project4.ServiceLocator
 import com.udacity.project4.TestAndroidModelUtils
 import com.udacity.project4.data.source.RemainderDataSource
 import com.udacity.project4.data.source.RemaindersRepository
+import com.udacity.project4.data.source.RemaindersRepositoryImpl
+import com.udacity.project4.data.source.local.DB
+import com.udacity.project4.data.source.local.RemaindersDao
 import com.udacity.project4.data.source.local.RemaindersDatabase
 import com.udacity.project4.data.source.local.RemaindersLocalDataSource
 import com.udacity.project4.geofence.GeofenceUtils
 import com.udacity.project4.source.FakeAndroidRepository
+import com.udacity.project4.ui.remainderList.RemaindersFragment
 import com.udacity.project4.ui.reminderDetail.RemainderDetailFragment
 import com.udacity.project4.ui.reminderDetail.RemainderDetailViewModel
+import com.udacity.project4.utils.DataBindingIdlingResource
+import com.udacity.project4.utils.monitorFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
@@ -35,6 +44,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
+import org.mockito.Mockito
 
 
 /**
@@ -43,50 +53,49 @@ import org.koin.test.KoinTest
 @ExperimentalCoroutinesApi
 @MediumTest
 @RunWith(AndroidJUnit4::class)
-class RemainderDetailFragmentTest : KoinTest {
+class RemainderDetailFragmentTest {
 
     private lateinit var repository: RemaindersRepository
+    private val dataBindingIdlingResource = DataBindingIdlingResource()
 
     @Before
     fun setup() {
         stopKoin()
         val appModule = module {
+
             viewModel {
                 RemainderDetailViewModel(
                     get() as RemaindersRepository
                 )
             }
             single {
-                Room.databaseBuilder(
-                    get(),
-                    RemaindersDatabase::class.java, "Remainders.db"
-                )
-                    .fallbackToDestructiveMigration()
-                    .build()
+                DB.createRemainderDatabase(ApplicationProvider.getApplicationContext())
             }
-            single<RemainderDataSource> { RemaindersLocalDataSource(get()) }
+            single<RemaindersRepository> { RemaindersRepositoryImpl(get() as RemainderDataSource) }
+            single<RemainderDataSource> { RemaindersLocalDataSource(get() as RemaindersDao) }
         }
         startKoin {
             androidContext(ApplicationProvider.getApplicationContext())
             modules(listOf(appModule))
         }
         repository = GlobalContext.get().koin.get()
-
     }
 
-
-    @After
-    fun cleanUpRepository() {
-        ServiceLocator.resetRepository()
-    }
 
     @Test
-    fun remainderDetails_DisplayedInUi() = runBlockingTest {
+    fun remainderDetails_DisplayedInUi() = runBlocking {
         val remainder = TestAndroidModelUtils.getTestRemainder()
         repository.saveReminder(remainder)
         val bundle = Bundle()
         bundle.putString(GeofenceUtils.GEOFENCE_EXTRA, remainder.id)
-        launchFragmentInContainer<RemainderDetailFragment>(bundle, R.style.AppTheme)
+        val scenario = launchFragmentInContainer<RemainderDetailFragment>(bundle, R.style.AppTheme)
+
+        val navController = Mockito.mock(NavController::class.java)
+        dataBindingIdlingResource.monitorFragment(scenario)
+
+        scenario.onFragment {
+            Navigation.setViewNavController(it.view!!, navController)
+        }
 
         onView(withId(R.id.tvTitleValue)).check(matches(isDisplayed()))
         onView(withId(R.id.tvTitleValue)).check(matches(withText(remainder.title)))
@@ -99,8 +108,6 @@ class RemainderDetailFragmentTest : KoinTest {
 
         onView(withId(R.id.tvLatLngValue)).check(matches(isDisplayed()))
         onView(withId(R.id.tvLatLngValue)).check(matches(withText("${remainder.latitude}, ${remainder.longitude}")))
-
         Thread.sleep(2000)
-
     }
 }

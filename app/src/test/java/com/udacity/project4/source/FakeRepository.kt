@@ -13,6 +13,11 @@ class FakeRepository : RemaindersRepository {
     private var remainders: MutableList<Remainder> = mutableListOf()
     private var remainderLiveData = MutableLiveData<List<Remainder>>()
 
+    private var shouldReturnError = false
+
+    fun setShouldReturnError(shouldReturn: Boolean) {
+        this.shouldReturnError = shouldReturn
+    }
 
     override fun observeRemainders(): LiveData<List<Remainder>> {
         return remainderLiveData
@@ -28,10 +33,16 @@ class FakeRepository : RemaindersRepository {
     }
 
     override suspend fun getRemainderById(id: String): Remainder? {
+        if(shouldReturnError){
+            return null
+        }
         return remainders.find { it.id == id }
     }
 
     override fun getRemainders(): List<Remainder> {
+        if(shouldReturnError){
+            return emptyList()
+        }
         return remainders
     }
 }

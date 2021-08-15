@@ -2,10 +2,12 @@ package com.udacity.project4
 
 import android.Manifest
 import android.annotation.TargetApi
+import android.app.Application
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
@@ -23,6 +25,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.udacity.project4.databinding.ActivityMainBinding
 import com.udacity.project4.geofence.createChannel
 import com.udacity.project4.ui.remainderList.*
+import org.koin.core.context.GlobalContext
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -32,8 +35,10 @@ class MainActivity : AppCompatActivity() {
     private var _onPermissionGranted: (() -> Unit)? = null
     private var _onPermissionDenied: (() -> Unit)? = null
 
+    private var snackBarDuration = Snackbar.LENGTH_INDEFINITE
+
     private val runningQOrLater =
-        android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q
+        android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
 
 
     private lateinit var binding: ActivityMainBinding
@@ -64,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 
 
     @TargetApi(29)
-    private fun foregroundAndBackgroundLocationPermissionApproved(): Boolean {
+    private fun foregroundAndBackgroundLocationPermissionApproved(toRequestBoth: Boolean = true): Boolean {
         val foregroundLocationApproved = (
                 PackageManager.PERMISSION_GRANTED ==
                         ActivityCompat.checkSelfPermission(
@@ -81,15 +86,20 @@ class MainActivity : AppCompatActivity() {
             } else {
                 true
             }
-        return foregroundLocationApproved && backgroundPermissionApproved
+        return if (toRequestBoth) {
+            foregroundLocationApproved && backgroundPermissionApproved
+        } else {
+            foregroundLocationApproved
+        }
     }
+
 
     @TargetApi(29)
     private fun requestForegroundAndBackgroundLocationPermissions() {
         if (foregroundAndBackgroundLocationPermissionApproved())
             return
         var permissionsArray = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
-        val resultCode = when {
+        val resultCodeBoth = when {
             runningQOrLater -> {
                 permissionsArray += Manifest.permission.ACCESS_BACKGROUND_LOCATION
                 REQUEST_FOREGROUND_AND_BACKGROUND_PERMISSION_RESULT_CODE
@@ -97,10 +107,11 @@ class MainActivity : AppCompatActivity() {
             else -> REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
         }
         Timber.d("Request foreground only location permission")
+
         ActivityCompat.requestPermissions(
             this,
             permissionsArray,
-            resultCode
+            resultCodeBoth
         )
     }
 
@@ -128,7 +139,7 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(
                 binding.layoutMain,
                 R.string.permission_denied_explanation,
-                Snackbar.LENGTH_INDEFINITE
+                snackBarDuration
             )
                 .setAction(R.string.settings) {
                     startActivity(Intent().apply {
@@ -192,6 +203,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val locationPermissions =
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            )
+        } else {
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+
+    fun hasLocationPermissions(): Boolean =
+        allPermissionsGranted(*locationPermissions)
+
+    private fun allPermissionsGranted(vararg permissions: String): Boolean = permissions.all {
+        val context = GlobalContext.getOrNull()?.koin?.get<Application>() ?: return false
+        ActivityCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
+    }
 }
 
 

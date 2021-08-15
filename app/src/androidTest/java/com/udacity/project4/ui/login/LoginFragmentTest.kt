@@ -35,5 +35,4 @@ class LoginFragmentTest {
         onView(withId(R.id.btnLogin)).check(matches(isClickable()))
         onView(withId(R.id.tvIntro)).check(matches(withText(appContext.getString(R.string.label_login_description_screen))))
     }
-
 }

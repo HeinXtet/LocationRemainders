@@ -5,6 +5,7 @@ import android.location.Address
 import android.location.Geocoder
 import com.udacity.project4.R
 import com.google.android.gms.location.GeofenceStatusCodes
+import java.lang.Exception
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -32,17 +33,26 @@ object GeofenceUtils {
             else -> resources.getString(R.string.unknown_geofence_error)
         }
     }  fun getAddress(context: Context, latitude: Double, longitude: Double): Address? {
-        val geocoder: Geocoder = Geocoder(context, Locale.getDefault())
-        val addresses: List<Address> = geocoder.getFromLocation(
-            latitude,
-            longitude,
-            1
-        )
-        return if (addresses.isNotEmpty()) {
-            addresses[0]
-        } else {
-            null
+
+        try {
+            val geocoder: Geocoder = Geocoder(context, Locale.getDefault())
+            val addresses: List<Address> = geocoder.getFromLocation(
+                latitude,
+                longitude,
+                1
+            )
+            return if (addresses.isNotEmpty()) {
+                addresses[0]
+            } else {
+                null
+            }
+        }catch (e :Exception){
+            val address =Address(Locale.ENGLISH)
+            address.featureName = "No name found"
+            return address
         }
+
+
     }
 
 }

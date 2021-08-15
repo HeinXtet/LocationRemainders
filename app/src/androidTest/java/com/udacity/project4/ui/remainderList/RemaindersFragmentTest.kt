@@ -147,4 +147,5 @@ class RemaindersFragmentTest : TestWatcher() {
             .check(ViewAssertions.matches(ViewMatchers.withText(R.string.remainder_deleted)))
         Unit
     }
+
 }

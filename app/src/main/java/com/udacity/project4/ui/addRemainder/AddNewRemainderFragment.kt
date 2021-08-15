@@ -76,12 +76,14 @@ class AddNewRemainderFragment : BaseFragment() {
         }
 
         viewModel.savedRemainderEvent.observe(viewLifecycleOwner, {
-            (requireActivity() as MainActivity).checkPermissionsAndStartGeofencing(
-                onPermissionDenied = {},
-                onPermissionGranted = {
-                    binding.root.showSnackBar(getString(R.string.text_saved_remainder))
-                    addGeofence()
-                })
+            if(requireActivity() is MainActivity){
+                (requireActivity() as MainActivity).checkPermissionsAndStartGeofencing(
+                    onPermissionDenied = {},
+                    onPermissionGranted = {
+                        binding.root.showSnackBar(getString(R.string.text_saved_remainder))
+                        addGeofence()
+                    })
+            }
         })
 
         viewModel.showSnackBarInt.observe(viewLifecycleOwner, {
@@ -89,6 +91,8 @@ class AddNewRemainderFragment : BaseFragment() {
                 Snackbar.make(binding.root, getString(it), 2000).show()
             }
         })
+
+
         viewModel.toastInt.observe(viewLifecycleOwner, {
             it.getContentIfNotHandled()?.let {
                 Toast.makeText(
@@ -97,7 +101,6 @@ class AddNewRemainderFragment : BaseFragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-
         })
         init()
         return binding.root
@@ -109,7 +112,7 @@ class AddNewRemainderFragment : BaseFragment() {
             btnLocation.setOnClickListener {
                 findNavController().safeNavigate(AddNewRemainderFragmentDirections.actionAddNewRemainderToMapFragment())
             }
-            fabAddRemainder.setOnClickListener {
+            fabSaveRemainder.setOnClickListener {
                 viewModel.addNewRemainder()
             }
         }
@@ -135,21 +138,16 @@ class AddNewRemainderFragment : BaseFragment() {
                 .addGeofence(geofence)
                 .build()
 
-
-            geofencingClient.removeGeofences(geofencePendingIntent)?.run {
-                addOnCompleteListener {
-                    geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
-                        addOnSuccessListener {
-                            binding.root.showSnackBar(getString(R.string.geofences_added))
-                            goToRemainders()
-                            Timber.d("Add Geofence ${geofence.requestId}")
-                        }
-                        addOnFailureListener {
-                            binding.root.showSnackBar(getString(R.string.geofences_not_added))
-                            if ((it.message != null)) {
-                                Timber.d("geofence not added ${it.message}")
-                            }
-                        }
+            geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
+                addOnSuccessListener {
+                    binding.root.showSnackBar(getString(R.string.geofences_added))
+                    goToRemainders()
+                    Timber.d("Add Geofence ${geofence.requestId}")
+                }
+                addOnFailureListener {
+                    binding.root.showSnackBar(getString(R.string.geofences_not_added))
+                    if ((it.message != null)) {
+                        Timber.d("geofence not added ${it.message}")
                     }
                 }
             }

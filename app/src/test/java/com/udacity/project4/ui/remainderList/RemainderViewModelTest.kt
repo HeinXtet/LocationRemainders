@@ -58,5 +58,11 @@ class RemainderViewModelTest {
     }
 
 
+    @Test
+    fun returnNullForRemainderById_whenNull() = runBlockingTest {
+        fakeRepository.setShouldReturnError(true)
+        val remainder = fakeRepository.getRemainderById("1")
+        assertThat(remainder == null, `is`(true))
+    }
 
 }

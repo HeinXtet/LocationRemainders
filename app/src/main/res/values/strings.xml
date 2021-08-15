@@ -11,7 +11,7 @@
     </string>
 
     <string name="permission_denied_explanation">
-        You need to grant location permission in order to play this game.
+        You need to grant location permission in order to get your current location
     </string>
     <string name="location_required_error">Location services must be enabled for this game.</string>
     <string name="floating_action_for_add_new_remainder">Action for add new remainder.</string>

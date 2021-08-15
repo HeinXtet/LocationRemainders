@@ -3,6 +3,8 @@ package com.udacity.project4.data.source.local
 import androidx.lifecycle.LiveData
 import com.udacity.project4.data.source.RemainderDataSource
 import com.udacity.project4.domain.model.Remainder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 19,July,2021
@@ -11,7 +13,9 @@ import com.udacity.project4.domain.model.Remainder
 class RemaindersLocalDataSource  constructor(private val dao: RemaindersDao) :
     RemainderDataSource {
     override suspend fun saveRemainder(remainder: Remainder) {
-        dao.insertRemainder(remainder)
+        withContext(Dispatchers.IO){
+            dao.insertRemainder(remainder)
+        }
     }
 
     override fun observeRemainders(): LiveData<List<Remainder>> {

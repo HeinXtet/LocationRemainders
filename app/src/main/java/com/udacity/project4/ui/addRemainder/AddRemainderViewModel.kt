@@ -29,7 +29,7 @@ class AddRemainderViewModel constructor(remainderRepository: RemaindersRepositor
 
 
     fun updatePOI(data: Point) {
-        _selectedPOI.value = data
+        _selectedPOI.postValue(data)
     }
 
 
@@ -74,7 +74,7 @@ class AddRemainderViewModel constructor(remainderRepository: RemaindersRepositor
             )
             savedRemainder = remainder
             viewModelScope.launch {
-                repository?.saveReminder(remainder)
+                repository.saveReminder(remainder)
                 title.value = ""
                 description.value = ""
                 savedRemainder()
@@ -85,5 +85,6 @@ class AddRemainderViewModel constructor(remainderRepository: RemaindersRepositor
 
     fun savedRemainder() {
         _savedRemainderEvent.value = Event(R.string.text_add_new_remainder_sucess)
+        toastInt.value = Event(R.string.text_add_new_remainder_sucess)
     }
 }

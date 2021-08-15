@@ -2,6 +2,7 @@ package com.udacity.project4.ui.map
 
 import android.annotation.SuppressLint
 import android.content.res.Resources
+import android.location.Address
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
@@ -58,12 +59,18 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         }, {})
         viewModel.isPermissionGranted.observe(viewLifecycleOwner, {
             if (it) {
-                setupMap()
-                locationHandler.requestLocation()
-
+                getUserCurrentLocation()
             }
         })
         return binding.root
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getUserCurrentLocation() {
+        map.isMyLocationEnabled = true
+        if (viewModel.selectPoi.value == null) {
+            locationHandler.requestLocation()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,27 +82,20 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
     override fun onMapReady(p0: GoogleMap?) {
         p0?.let {
             map = it
+            setupMap()
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        checkUserLocation()
-    }
 
     private fun checkUserLocation() {
-        (requireActivity() as MainActivity).checkPermissionsAndStartGeofencing(
-            onPermissionGranted = {
-                viewModel.updatePermissionStatus(true)
-            },
-            onPermissionDenied = {
-                viewModel.updatePermissionStatus(false)
-            })
+        if ((requireActivity() as MainActivity).hasLocationPermissions()) {
+            viewModel.updatePermissionStatus(true)
+        }
     }
 
     @SuppressLint("MissingPermission")
     private fun setupMap() {
-
+        checkUserLocation()
         try {
             val success: Boolean = map.setMapStyle(
                 MapStyleOptions.loadRawResourceStyle(
@@ -108,7 +108,6 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         } catch (e: Resources.NotFoundException) {
             Timber.d("Can't find style. Error: $e")
         }
-        map.isMyLocationEnabled = true
         map.setOnMapClickListener { latLng ->
             map.clear()
             val snippet = String.format(
@@ -117,18 +116,16 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                 latLng.latitude,
                 latLng.longitude
             )
-            val address = GeofenceUtils.getAddress(
-                requireContext(),
-                latitude = latLng.latitude,
-                longitude = latLng.longitude
-            )
+
             val poiMarker = map.addMarker(
                 MarkerOptions()
                     .position(latLng)
-                    .title(address?.featureName ?: "")
+                    .title("Selected Locations")
                     .snippet(snippet)
             )
             poiMarker.showInfoWindow()
+            val address = Address(Locale.ENGLISH)
+            address.featureName = snippet
             viewModel.updatePoi(Point(latLng, address))
         }
     }

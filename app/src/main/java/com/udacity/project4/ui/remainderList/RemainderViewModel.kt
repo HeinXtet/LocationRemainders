@@ -65,9 +65,6 @@ class RemainderViewModel constructor(private val repository: RemaindersRepositor
         loadReminders()
     }
 
-    fun updateLoading(value: Boolean) {
-        loading.postValue(value)
-    }
 
     fun loadReminders() {
         loading.value = true
@@ -76,9 +73,8 @@ class RemainderViewModel constructor(private val repository: RemaindersRepositor
             val result = repository.getRemainders()
             loading.postValue(false)
             when (result) {
-                is com.udacity.project4.utils.Result.Success<*> -> {
+                is Result.Success<*> -> {
                     val dataList = ArrayList<Remainder>()
-
                     @Suppress("UNCHECKED_CAST")
                     dataList.addAll((result.data as List<Remainder>).map { reminder ->
                         //map the reminder data from the DB to the be ready to be displayed on the UI

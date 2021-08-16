@@ -7,6 +7,7 @@ import com.udacity.project4.ServiceLocator
 import com.udacity.project4.data.source.RemaindersRepository
 import com.udacity.project4.domain.model.Remainder
 import com.udacity.project4.ui.base.BaseViewModel
+import com.udacity.project4.utils.Result
 import kotlinx.coroutines.launch
 
 /**
@@ -23,8 +24,10 @@ class RemainderDetailViewModel constructor(repository: RemaindersRepository) :
 
     fun getRemainderByPlaceId(placeId: String) {
         viewModelScope.launch {
-            remaindersRepository.getRemainderById(placeId)?.let {
-                _remainder.value = it
+            remaindersRepository.getRemainderById(placeId).let {
+                if (it is Result.Success) {
+                    _remainder.value = it.data
+                }
             }
         }
     }

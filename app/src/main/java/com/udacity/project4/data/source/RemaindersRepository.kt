@@ -15,8 +15,8 @@ interface RemaindersRepository {
 
     suspend fun deleteRemainder(remainder: Remainder)
 
-    suspend fun getRemainderById(id  : String) : Remainder?
+    suspend fun getRemainderById(id: String): Result<Remainder>
 
-    suspend fun getRemainders() : Result<List<Remainder>>
+    suspend fun getRemainders(): Result<List<Remainder>>
 
 }

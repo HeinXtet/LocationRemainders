@@ -7,10 +7,12 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
@@ -27,6 +29,7 @@ import com.udacity.project4.source.FakeAndroidRepository
 import com.udacity.project4.ui.reminderDetail.RemainderDetailViewModel
 import com.udacity.project4.utils.*
 import kotlinx.coroutines.*
+import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -38,8 +41,15 @@ import org.koin.core.context.GlobalContext
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
+import org.mockito.ArgumentMatchers
+import org.mockito.Mockito.*
+import androidx.test.espresso.util.HumanReadables
+
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+
+import androidx.test.espresso.NoMatchingViewException
+import java.lang.AssertionError
+
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 10,August,2021
@@ -148,4 +158,29 @@ class RemaindersFragmentTest : TestWatcher() {
         Unit
     }
 
+    @Test
+    fun loading_showUI() {
+        val navController = mock(NavController::class.java)
+        val scenario =
+            launchFragmentInContainer<RemaindersFragment>(Bundle(), R.style.AppTheme).onFragment {
+                Navigation.setViewNavController(it.view!!, navController)
+            }
+        dataBindingIdlingResource.monitorFragment(scenario)
+        scenario.onFragment {
+            Navigation.setViewNavController(it.view!!, navController)
+        }
+        onView(withId(R.id.progressBar)).check(isNotDisplayed())
+    }
+
+}
+
+fun isNotDisplayed(): ViewAssertion {
+    return ViewAssertion { view, noView ->
+        if (view != null && isDisplayed().matches(view)) {
+            throw AssertionError(
+                "View is present in the hierarchy and Displayed: "
+                        + HumanReadables.describe(view)
+            )
+        }
+    }
 }

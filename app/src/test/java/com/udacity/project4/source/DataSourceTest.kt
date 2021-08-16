@@ -41,8 +41,10 @@ class DataSourceTest {
         dataSource.saveRemainder(remainder)
 
         val savedRemainder = dataSource.getRemainderById(remainder.id)
+        assertThat(savedRemainder is Result.Success,`is`(true))
+        savedRemainder as Result.Success
 
-        assertThat(remainder.title, `is`(savedRemainder?.title))
+        assertThat(remainder.title, `is`(savedRemainder.data.title))
     }
 
 
@@ -53,8 +55,8 @@ class DataSourceTest {
         val list = dataSource.getRemainders() as Result.Success<List<Remainder>>
         assertThat(list.data.isNotEmpty(), `is`(true))
         dataSource.deleteRemainder(remainder)
-
-        assertThat(dataSource.getRemainderById(remainder.id) == null, `is`(true))
+        val savedRemainder = dataSource.getRemainderById(remainder.id)
+        assertThat(savedRemainder is Result.Error, `is`(true))
 
     }
 

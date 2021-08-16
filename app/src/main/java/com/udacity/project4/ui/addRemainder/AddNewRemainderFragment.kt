@@ -76,7 +76,7 @@ class AddNewRemainderFragment : BaseFragment() {
 //        }
 
         viewModel.savedRemainderEvent.observe(viewLifecycleOwner, {
-            if(it!=null){
+            if (it != null) {
                 if (requireActivity() is MainActivity) {
                     (requireActivity() as MainActivity).checkPermissionsAndStartGeofencing(
                         onPermissionDenied = {},
@@ -143,11 +143,10 @@ class AddNewRemainderFragment : BaseFragment() {
                 .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
                 .addGeofence(geofence)
                 .build()
-
+            viewModel.clearAll()
             geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
                 addOnSuccessListener {
                     binding.root.showSnackBar(getString(R.string.geofences_added))
-                    viewModel.clearAll()
                     goToRemainders()
                     Timber.d("Add Geofence ${geofence.requestId}")
                 }

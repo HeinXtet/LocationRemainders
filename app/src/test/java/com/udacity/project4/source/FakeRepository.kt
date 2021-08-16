@@ -33,11 +33,16 @@ class FakeRepository : RemaindersRepository {
         remainders.remove(remainder)
     }
 
-    override suspend fun getRemainderById(id: String): Remainder? {
+    override suspend fun getRemainderById(id: String): Result<Remainder> {
         if (shouldReturnError) {
-            return null
+            return Result.Error("no remainder found exception")
         }
-        return remainders.find { it.id == id }
+        val remainder = remainders.find { it.id == id }
+        return if(remainder!=null){
+            Result.Success(remainder)
+        }else{
+            Result.Error("no remainder found")
+        }
     }
 
     override suspend fun getRemainders(): Result<List<Remainder>> {

@@ -96,6 +96,11 @@ class RemaindersFragment : BaseFragment(), RemainderAdapterCallback {
                 binding.root.showSnackBar(getString(it))
             }
         })
+        viewModel.showSnackBar.observe(viewLifecycleOwner, {
+            it.getContentIfNotHandled()?.let {
+                binding.root.showSnackBar(it)
+            }
+        })
     }
 
 

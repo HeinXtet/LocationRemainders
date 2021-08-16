@@ -26,7 +26,6 @@ import org.junit.runner.RunWith
 @SmallTest
 class RemindersDaoTest {
 
-
     private lateinit var database: RemaindersDatabase
     private lateinit var remainderDao: RemaindersDao
 

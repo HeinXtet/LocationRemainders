@@ -28,8 +28,12 @@ class RemaindersLocalDataSource constructor(private val dao: RemaindersDao) :
         dao.deleteRemainder(remainder)
     }
 
-    override suspend fun getRemainderById(id: String): Remainder? {
-        return dao.getRemainderById(id)
+    override suspend fun getRemainderById(id: String) = withContext(Dispatchers.IO) {
+        return@withContext try {
+            Result.Success(dao.getRemainderById(id)!!)
+        } catch (e: Exception) {
+            Result.Error(e.localizedMessage)
+        }
     }
 
     override suspend fun getRemainders() = withContext(Dispatchers.IO) {

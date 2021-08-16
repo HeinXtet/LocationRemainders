@@ -1,6 +1,7 @@
 package com.udacity.project4.ui.addRemainder
 
 import android.location.Address
+import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -21,6 +22,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.context.stopKoin
+import org.robolectric.annotation.Config
 import java.util.*
 
 /**
@@ -29,7 +32,6 @@ import java.util.*
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 class AddRemainderViewModelTest {
-
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
@@ -46,6 +48,7 @@ class AddRemainderViewModelTest {
 
     @Before
     fun setup() {
+        stopKoin()
         repository = FakeRepository()
         addRemainderViewModel =
             AddRemainderViewModel(ApplicationProvider.getApplicationContext(), repository)
@@ -95,7 +98,7 @@ class AddRemainderViewModelTest {
 
         val snackBarValue = addRemainderViewModel.savedRemainderEvent.getOrAwaitValue()
         assertThat(
-            snackBarValue.getContentIfNotHandled(),
+            snackBarValue?.getContentIfNotHandled(),
             `is`(R.string.text_add_new_remainder_sucess)
         )
     }

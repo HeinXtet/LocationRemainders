@@ -26,10 +26,10 @@ import androidx.test.espresso.IdlingResource
 import java.util.*
 
 /**
- * An espresso idling resource implementation that reports idle status for all data binding
+ * An espresso idling resources implementation that reports idle status for all data binding
  * layouts. Data Binding uses a mechanism to post messages which Espresso doesn't track yet.
  *
- * Since this application only uses fragments, the resource only checks the fragments and their
+ * Since this application only uses fragments, the resources only checks the fragments and their
  * children instead of the whole view tree.
  */
 class DataBindingIdlingResource : IdlingResource {
@@ -37,7 +37,7 @@ class DataBindingIdlingResource : IdlingResource {
     private val idlingCallbacks = mutableListOf<IdlingResource.ResourceCallback>()
 
     // give it a unique id to workaround an espresso bug where you cannot register/unregister
-    // an idling resource w/ the same name.
+    // an idling resources w/ the same name.
     private val id = UUID.randomUUID().toString()
 
     // holds whether isIdle is called and the result was false. We track this to avoid calling

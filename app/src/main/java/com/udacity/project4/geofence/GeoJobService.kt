@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
 import com.udacity.project4.data.source.RemaindersRepository
+import com.udacity.project4.utils.Result
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,7 +41,7 @@ class GeoJobService : JobIntentService() {
 
     private fun showNotification(geo: Geofence) {
         CoroutineScope(Dispatchers.IO).launch {
-            val remainder = repository.getRemainderById(geo.requestId)
+            val remainder = repository.getRemainderById(geo.requestId) as Result.Success
             Timber.d("Geofence Remainder $remainder")
             if (remainder != null) {
                 val notificationManager = ContextCompat.getSystemService(
@@ -50,7 +51,7 @@ class GeoJobService : JobIntentService() {
 
                 notificationManager.sendGeofenceEnteredNotification(
                     this@GeoJobService.applicationContext,
-                    remainder
+                    remainder.data
                 )
             }
         }

@@ -1,6 +1,5 @@
 package com.udacity.project4.ui.addRemainder
 
-import android.app.PendingIntent.getActivity
 import android.location.Address
 import android.os.Bundle
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
@@ -47,9 +46,6 @@ import java.util.*
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 
 import com.udacity.project4.utils.ToastMatcher
-
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.matcher.ViewMatchers
 
 
 /**

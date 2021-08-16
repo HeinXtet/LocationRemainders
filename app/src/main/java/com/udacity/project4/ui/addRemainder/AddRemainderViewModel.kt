@@ -106,4 +106,5 @@ class AddRemainderViewModel constructor(
         toastInt.value = null
         _savedRemainderEvent.value = null
     }
+
 }

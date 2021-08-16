@@ -48,7 +48,8 @@ class RemainderRepositoryTest {
         val list = remainderRepository.getRemainders() as Result.Success<List<Remainder>>
         assertThat(list.data.isEmpty(), `is`(false))
         remainderRepository.deleteRemainder(TestModelUtils.getTestRemainder())
-        assertThat(list.data.isEmpty(), `is`(true))
+        val savedList = remainderRepository.getRemainders() as Result.Success<List<Remainder>>
+        assertThat(savedList.data.isEmpty(), `is`(true))
     }
 
 
@@ -56,7 +57,7 @@ class RemainderRepositoryTest {
     fun returnNullForRemainderById_whenError() = runBlockingTest {
         fakeDataSource.setShouldReturnError(true)
         val remainder = remainderRepository.getRemainderById("1")
-        assertThat(remainder == null, `is`(true))
+        assertThat(remainder is Result.Error, `is`(true))
     }
 
 }

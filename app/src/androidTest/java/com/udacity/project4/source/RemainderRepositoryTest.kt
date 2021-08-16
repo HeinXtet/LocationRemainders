@@ -54,11 +54,13 @@ class RemainderTestRepositoryTest {
     fun saveRemainderSuccess() = runBlocking {
         remainderRepository.saveReminder(TestModelUtils.getTestRemainder())
         val result = remainderRepository.getRemainderById(TestModelUtils.getTestRemainder().id)
-        assertThat(result?.id, `is`(TestModelUtils.getTestRemainder().id))
-        assertThat(result?.title, `is`(notNullValue()))
-        assertThat(result?.description, `is`(notNullValue()))
-        assertThat(result?.latitude, `is`(notNullValue()))
-        assertThat(result?.longitude, `is`(notNullValue()))
+        assertThat(result is Result.Success, `is`(true))
+        result as Result.Success
+        assertThat(result.data.id, `is`(TestModelUtils.getTestRemainder().id))
+        assertThat(result.data.title, `is`(notNullValue()))
+        assertThat(result.data.description, `is`(notNullValue()))
+        assertThat(result.data.latitude, `is`(notNullValue()))
+        assertThat(result.data.longitude, `is`(notNullValue()))
     }
 
 

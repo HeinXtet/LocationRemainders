@@ -5,6 +5,7 @@ import com.udacity.project4.domain.model.Remainder
 import com.udacity.project4.getOrAwaitValue
 import com.udacity.project4.source.FakeRepository
 import com.udacity.project4.MainCoroutineRule
+import com.udacity.project4.utils.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
@@ -12,6 +13,7 @@ import org.hamcrest.Matchers.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.koin.core.context.stopKoin
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 20,July,2021
@@ -33,6 +35,7 @@ class RemainderViewModelTest {
 
     @Before
     fun setup() {
+        stopKoin()
         fakeRepository = FakeRepository()
         viewModel = RemainderViewModel(fakeRepository)
     }
@@ -49,7 +52,8 @@ class RemainderViewModelTest {
                 "place",
             )
         )
-        val isEmpty = viewModel.isEmptyRemainders.getOrAwaitValue()
+        viewModel.loadReminders()
+        val isEmpty = viewModel.showNoData.getOrAwaitValue()
         assertThat(isEmpty, `is`(false))
     }
 
@@ -65,7 +69,7 @@ class RemainderViewModelTest {
     fun returnNullForRemainderById_whenNull() = runBlockingTest {
         fakeRepository.setShouldReturnError(true)
         val remainder = fakeRepository.getRemainderById("1")
-        assertThat(remainder == null, `is`(true))
+        assertThat(remainder is Result.Error, `is`(true))
     }
 
 
@@ -82,5 +86,4 @@ class RemainderViewModelTest {
         viewModel.loadReminders()
         assertThat(viewModel.showSnackBar.getOrAwaitValue(), `is`(notNullValue()))
     }
-
 }

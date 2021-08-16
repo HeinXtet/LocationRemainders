@@ -1,6 +1,7 @@
 package com.udacity.project4.source
 
 import android.content.Context
+import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
@@ -22,6 +23,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.context.stopKoin
+import org.robolectric.annotation.Config
 import java.io.IOException
 
 /**
@@ -39,6 +42,7 @@ class RoomDatabaseTest {
 
     @Before
     fun createDb() {
+        stopKoin()
         val context = ApplicationProvider.getApplicationContext<Context>()
         remaindersDatabase = Room.inMemoryDatabaseBuilder(
             context, RemaindersDatabase::class.java

@@ -29,10 +29,13 @@ class FakeAndroidRepository : RemaindersRepository {
         remainders.remove(remainder)
     }
 
-    override suspend fun getRemainderById(id: String): Remainder? {
+    override suspend fun getRemainderById(id: String): Result<Remainder> {
         val remainder = remainders.findLast { it.id == id }
-        Timber.d("getRemainderById ${remainder?.title}")
-        return remainder
+        return if (remainder != null) {
+            Result.Success(remainder)
+        } else {
+            Result.Error("no remainder found")
+        }
     }
 
     override suspend fun getRemainders(): Result<List<Remainder>> {

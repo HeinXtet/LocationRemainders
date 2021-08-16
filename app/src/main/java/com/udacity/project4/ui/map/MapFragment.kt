@@ -53,7 +53,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
             vm = viewModel
             lifecycleOwner = viewLifecycleOwner
             btnSave.setOnClickListener {
-                if(viewModel.isSaveEnabled.value == true){
+                if (viewModel.selectPoi.value != null) {
                     addRemainderViewModel.updatePOI(viewModel.selectPoi.value!!)
                     findNavController().popBackStack()
                 }

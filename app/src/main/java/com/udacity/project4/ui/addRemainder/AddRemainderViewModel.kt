@@ -42,7 +42,7 @@ class AddRemainderViewModel constructor(
     }
 
 
-    private val _savedRemainderEvent = MutableLiveData<Event<Int>>()
+    private val _savedRemainderEvent = MutableLiveData<Event<Int>?>()
 
     val savedRemainderEvent: LiveData<Event<Int>?>
         get() = _savedRemainderEvent

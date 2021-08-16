@@ -1,13 +1,10 @@
 package com.udacity.project4
 
-import android.view.View
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.UiController
-import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -26,7 +23,6 @@ import com.udacity.project4.util.EspressoIdlingResource
 import com.udacity.project4.utils.DataBindingIdlingResource
 import com.udacity.project4.utils.monitorActivity
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.Matcher
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -61,10 +57,7 @@ class MainActivityTest :
         unregister(dataBindingIdlingResource)
     }
 
-    /**
-     * As we use Koin as a Service Locator Library to develop our code, we'll also use Koin to test our code.
-     * at this step we will initialize Koin related code to be able to use it in out testing.
-     */
+
     @Before
     fun init() {
         stopKoin()//stop the original app koin
@@ -122,25 +115,11 @@ class MainActivityTest :
         onView(withId(R.id.mapView)).perform(click())
         onView(withId(R.id.btnSave)).perform(click())
 
-//        onView(withId(R.id.tvSelectedPoi)).check(matches(isDisplayed()))
+        onView(withId(R.id.tvSelectedPoi)).check(matches(isDisplayed()))
 
-
-//        onView(isRoot()).perform(waitFor(2000))
-
-//        onView(withId(R.id.fabSaveRemainder)).perform(click())
-//
-//        onView(withId(R.id.tvEmpty)).check(matches(withEffectiveVisibility(Visibility.GONE)))
-//        onView(withText("Title")).check(matches(isDisplayed()))
-//        onView(withText("Description")).check(matches(isDisplayed()))
+        onView(withId(R.id.fabSaveRemainder)).perform(click())
+        onView(withId(R.id.tvEmpty)).check(matches(withEffectiveVisibility(Visibility.GONE)))
+        onView(withText("Title")).check(matches(isDisplayed()))
     }
 }
 
-fun waitFor(delay: Long): ViewAction? {
-    return object : ViewAction {
-        override fun getConstraints(): Matcher<View> = isRoot()
-        override fun getDescription(): String = "wait for $delay milliseconds"
-        override fun perform(uiController: UiController, v: View?) {
-            uiController.loopMainThreadForAtLeast(delay)
-        }
-    }
-}

@@ -43,4 +43,8 @@ class FakeDataSource : RemainderDataSource {
         }
         return Result.Success(remainders.toList())
     }
+
+    override suspend fun deleteAllRemainder() {
+        remainders.clear()
+    }
 }

@@ -34,7 +34,7 @@ class RemainderApp : Application() {
 
         val myModule = module {
             single<RemainderDataSource> { RemaindersLocalDataSource(get()) }
-            single<RemaindersRepository>{RemaindersRepositoryImpl(get() as RemainderDataSource)}
+            single<RemaindersRepository> { RemaindersRepositoryImpl(get() as RemainderDataSource) }
             single { DB.createRemainderDatabase(this@RemainderApp) }
             viewModel {
                 RemainderViewModel(
@@ -43,8 +43,9 @@ class RemainderApp : Application() {
             }
             viewModel { MapViewModel() }
             viewModel { RemainderDetailViewModel(get() as RemaindersRepository) }
-            viewModel {
+            single {
                 AddRemainderViewModel(
+                    get(),
                     get() as RemaindersRepository,
                 )
             }

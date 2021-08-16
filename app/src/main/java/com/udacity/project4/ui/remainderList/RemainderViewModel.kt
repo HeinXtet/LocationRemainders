@@ -62,6 +62,7 @@ class RemainderViewModel constructor(private val repository: RemaindersRepositor
             repository.deleteRemainder(remainder)
         }
         showSnackBarInt.value = Event(R.string.remainder_deleted)
+        loadReminders()
     }
 
     fun updateLoading(value: Boolean) {
@@ -86,7 +87,8 @@ class RemainderViewModel constructor(private val repository: RemaindersRepositor
                             description = reminder.description,
                             latitude = reminder.latitude,
                             longitude = reminder.longitude,
-                            place = reminder.place
+                            place = reminder.place,
+                            id = reminder.id
                         )
                     })
                     remindersList.value = dataList

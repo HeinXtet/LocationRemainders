@@ -19,5 +19,6 @@ interface RemainderDataSource {
 
 
     suspend fun getRemainders(): Result<List<Remainder>>
+    suspend fun deleteAllRemainder()
 
 }

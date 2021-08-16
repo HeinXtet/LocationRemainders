@@ -6,6 +6,8 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2520263424518744" />
         <entry key="app/src/main/res/layout/fragment_add_new_remainder.xml" value="0.23097826086956522" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.2256838905775076" />
+        <entry key="app/src/main/res/layout/fragment_map.xml" value="0.22780797101449277" />
+        <entry key="app/src/main/res/layout/fragment_remainder_detail.xml" value="0.22780797101449277" />
         <entry key="app/src/main/res/layout/fragment_remainders.xml" value="0.2520263424518744" />
       </map>
     </option>

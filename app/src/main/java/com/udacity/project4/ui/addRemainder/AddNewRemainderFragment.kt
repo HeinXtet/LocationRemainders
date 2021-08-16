@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.JobIntentService.enqueueWork
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.udacity.project4.MainActivity
@@ -30,6 +29,7 @@ import com.udacity.project4.domain.model.Point
 import com.udacity.project4.geofence.GeoJobService
 import com.udacity.project4.utils.safeNavigate
 import com.udacity.project4.utils.showSnackBar
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -38,7 +38,7 @@ import timber.log.Timber
  */
 class AddNewRemainderFragment : BaseFragment() {
 
-    val viewModel: AddRemainderViewModel by viewModel()
+    val viewModel: AddRemainderViewModel by inject()
     private lateinit var binding: FragmentAddNewRemainderBinding
 
     private lateinit var geofencingClient: GeofencingClient
@@ -68,38 +68,44 @@ class AddNewRemainderFragment : BaseFragment() {
         }
         setupActions()
 
-        // avoid on testing process
-        if (activity is MainActivity) {
-            getBackStackData<Point>(SELECTED_POI) { data ->
-                viewModel.updatePOI(data)
-            }
-        }
+//        // avoid on testing process
+//        if (activity is MainActivity) {
+//            getBackStackData<Point>(SELECTED_POI) { data ->
+//                viewModel.updatePOI(data)
+//            }
+//        }
 
         viewModel.savedRemainderEvent.observe(viewLifecycleOwner, {
-            if(requireActivity() is MainActivity){
-                (requireActivity() as MainActivity).checkPermissionsAndStartGeofencing(
-                    onPermissionDenied = {},
-                    onPermissionGranted = {
-                        binding.root.showSnackBar(getString(R.string.text_saved_remainder))
-                        addGeofence()
-                    })
+            if(it!=null){
+                if (requireActivity() is MainActivity) {
+                    (requireActivity() as MainActivity).checkPermissionsAndStartGeofencing(
+                        onPermissionDenied = {},
+                        onPermissionGranted = {
+                            binding.root.showSnackBar(getString(R.string.text_saved_remainder))
+                            addGeofence()
+                        })
+                }
             }
         })
 
         viewModel.showSnackBarInt.observe(viewLifecycleOwner, {
-            it.getContentIfNotHandled()?.let {
-                Snackbar.make(binding.root, getString(it), 2000).show()
+            if (it != null) {
+                it.getContentIfNotHandled()?.let {
+                    Snackbar.make(binding.root, getString(it), 2000).show()
+                }
             }
         })
 
 
         viewModel.toastInt.observe(viewLifecycleOwner, {
-            it.getContentIfNotHandled()?.let {
-                Toast.makeText(
-                    requireContext(),
-                    getString(it),
-                    Toast.LENGTH_SHORT
-                ).show()
+            if (it != null) {
+                it.getContentIfNotHandled()?.let {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(it),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         })
         init()
@@ -141,6 +147,7 @@ class AddNewRemainderFragment : BaseFragment() {
             geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
                 addOnSuccessListener {
                     binding.root.showSnackBar(getString(R.string.geofences_added))
+                    viewModel.clearAll()
                     goToRemainders()
                     Timber.d("Add Geofence ${geofence.requestId}")
                 }
@@ -157,7 +164,6 @@ class AddNewRemainderFragment : BaseFragment() {
     private fun goToRemainders() {
         findNavController().popBackStack()
     }
-
 
     private fun init() {
         geofencingClient =

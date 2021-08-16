@@ -39,4 +39,8 @@ class RemaindersLocalDataSource constructor(private val dao: RemaindersDao) :
             Result.Error(e.localizedMessage)
         }
     }
+
+    override suspend fun deleteAllRemainder() {
+        dao.deleteAllRemainders()
+    }
 }

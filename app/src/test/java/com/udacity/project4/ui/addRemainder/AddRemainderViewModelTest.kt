@@ -2,6 +2,7 @@ package com.udacity.project4.ui.addRemainder
 
 import android.location.Address
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.udacity.project4.MainCoroutineRule
 import com.udacity.project4.R
@@ -46,7 +47,8 @@ class AddRemainderViewModelTest {
     @Before
     fun setup() {
         repository = FakeRepository()
-        addRemainderViewModel = AddRemainderViewModel(repository)
+        addRemainderViewModel =
+            AddRemainderViewModel(ApplicationProvider.getApplicationContext(), repository)
         //  Dispatchers.setMain(coroutineDispatcher)
     }
 
@@ -70,11 +72,12 @@ class AddRemainderViewModelTest {
         addRemainderViewModel.title.value = "test title"
         addRemainderViewModel.description.value = "test description"
         addRemainderViewModel.updatePOI(
-            Point(LatLng(0.0, 0.0),Address(Locale.ENGLISH))
+            Point(LatLng(0.0, 0.0), Address(Locale.ENGLISH))
         )
         val isValid = addRemainderViewModel.isValidToSave()
         assertThat(isValid, `is`(true))
     }
+
     @Test
     fun checkValidToSaveNewRemainder_return_notValid() {
         addRemainderViewModel.title.value = "test title"

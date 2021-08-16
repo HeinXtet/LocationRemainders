@@ -20,7 +20,7 @@ val viewModelModule = module {
     }
 
     viewModel {
-        AddRemainderViewModel(get())
+        AddRemainderViewModel(get(),get())
     }
 
     viewModel {

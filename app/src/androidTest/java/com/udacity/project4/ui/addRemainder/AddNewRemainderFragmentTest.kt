@@ -85,6 +85,7 @@ class AddNewRemainderFragmentTest {
         val appModule = module {
             single {
                 AddRemainderViewModel(
+                    ApplicationProvider.getApplicationContext(),
                     get() as RemaindersRepository
                 )
             }

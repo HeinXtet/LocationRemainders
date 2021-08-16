@@ -17,10 +17,15 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+/**
+ * Created by heinhtet deevvdd@gmail.com on 16,Aug,2021
+ */
+
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 @SmallTest
 class RemindersDaoTest {
+
 
     private lateinit var database: RemaindersDatabase
     private lateinit var remainderDao: RemaindersDao
@@ -53,7 +58,7 @@ class RemindersDaoTest {
         assertThat(list).contains(reminderData)
     }
 
-        @Test
+    @Test
     fun retrieveFromDBSucceeds() = runBlockingTest {
         remainderDao.insertRemainder(reminderData)
         val reminder = remainderDao.getRemainderById(reminderData.id)
@@ -63,6 +68,7 @@ class RemindersDaoTest {
         assertThat(reminder?.latitude).isEqualTo(reminderData.latitude)
         assertThat(reminder?.longitude).isEqualTo(reminderData.longitude)
     }
+
     @Test
     fun deleteRemainderFromDatabase() = runBlockingTest {
         remainderDao.insertRemainder(reminderData)

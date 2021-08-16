@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.udacity.project4.R
 import com.udacity.project4.databinding.FragmentMapBinding
 import com.udacity.project4.ui.addRemainder.AddNewRemainderFragment
@@ -21,8 +22,11 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.udacity.project4.MainActivity
 import com.udacity.project4.domain.model.Point
 import com.udacity.project4.geofence.GeofenceUtils
+import com.udacity.project4.ui.addRemainder.AddRemainderViewModel
 import com.udacity.project4.utils.LocationHandler
 import com.udacity.project4.utils.showSnackBar
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import java.util.*
 
@@ -37,7 +41,8 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
 
     private lateinit var locationHandler: LocationHandler
 
-    private val viewModel: MapViewModel by viewModels()
+    private val viewModel: MapViewModel by inject()
+    private val addRemainderViewModel: AddRemainderViewModel by inject()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,7 +53,11 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
             vm = viewModel
             lifecycleOwner = viewLifecycleOwner
             btnSave.setOnClickListener {
-                setBackStackData(AddNewRemainderFragment.SELECTED_POI, viewModel.selectPoi.value!!)
+                if(viewModel.isSaveEnabled.value == true){
+                    addRemainderViewModel.updatePOI(viewModel.selectPoi.value!!)
+                    findNavController().popBackStack()
+                }
+//                setBackStackData(AddNewRemainderFragment.SELECTED_POI, viewModel.selectPoi.value!!)
             }
         }
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())

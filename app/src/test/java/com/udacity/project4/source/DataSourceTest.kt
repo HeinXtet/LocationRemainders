@@ -1,6 +1,8 @@
 package com.udacity.project4.source
 
 import com.udacity.project4.TestModelUtils
+import com.udacity.project4.domain.model.Remainder
+import com.udacity.project4.utils.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
@@ -28,7 +30,8 @@ class DataSourceTest {
     @Test
     fun addRemainderAndRetrieve_listNotEmpty() = runBlockingTest {
         dataSource.saveRemainder(TestModelUtils.getTestRemainder())
-        assertThat(dataSource.getRemainders().isNotEmpty(), `is`(true))
+        val list = dataSource.getRemainders() as Result.Success<List<Remainder>>
+        assertThat(list.data.isEmpty(), `is`(false))
     }
 
 
@@ -46,13 +49,9 @@ class DataSourceTest {
     @Test
     fun saveAndDeleteByID() = runBlockingTest {
         val remainder = TestModelUtils.getTestRemainder()
-
-
         dataSource.saveRemainder(remainder)
-
-
-        assertThat(dataSource.getRemainders().isNotEmpty(), `is`(true))
-
+        val list = dataSource.getRemainders() as Result.Success<List<Remainder>>
+        assertThat(list.data.isNotEmpty(), `is`(true))
         dataSource.deleteRemainder(remainder)
 
         assertThat(dataSource.getRemainderById(remainder.id) == null, `is`(true))

@@ -23,7 +23,7 @@ import org.junit.runner.RunWith
 class RemindersDaoTest {
 
     private lateinit var database: RemaindersDatabase
-    private lateinit var dao: RemaindersDao
+    private lateinit var remainderDao: RemaindersDao
 
     private val reminderData = TestModelUtils.getTestRemainder()
 
@@ -37,7 +37,7 @@ class RemindersDaoTest {
             RemaindersDatabase::class.java
         ).build()
 
-        dao = database.remaindersDao()
+        remainderDao = database.remaindersDao()
     }
 
     @After
@@ -46,33 +46,29 @@ class RemindersDaoTest {
     }
 
     @Test
-    fun insertIntoDBSucceeds() = runBlockingTest {
-        dao.insertRemainder(reminderData)
-        assertThat(dao.getRemainders()).hasSize(1)
-        assertThat(dao.getRemainders()).contains(reminderData)
+    fun saveRemainderToDatabase() = runBlockingTest {
+        remainderDao.insertRemainder(reminderData)
+        val list = remainderDao.getRemainders()
+        assertThat(list.isEmpty()).isFalse()
+        assertThat(list).contains(reminderData)
     }
 
-//    @Test
-//    fun retrieveFromDBSucceeds() = runBlockingTest {
-//        dao.saveReminder(reminderData)
-//
-//        val reminder = dao.getReminderById(reminderData.id)
-//
-//        assertThat(reminder).isNotNull()
-//        assertThat(reminder?.title).isEqualTo(reminderData.title)
-//        assertThat(reminder?.description).isEqualTo(reminderData.description)
-//        assertThat(reminder?.location).isEqualTo(reminderData.location)
-//        assertThat(reminder?.latitude).isEqualTo(reminderData.latitude)
-//        assertThat(reminder?.longitude).isEqualTo(reminderData.longitude)
-//        assertThat(reminder?.radius).isEqualTo(reminderData.radius)
-//    }
-//
-//    @Test
-//    fun deleteFromDBSucceeds() = runBlockingTest {
-//        dao.saveReminder(reminderData)
-//        assertThat(dao.getReminders()).hasSize(1)
-//
-//        dao.deleteAllReminders()
-//        assertThat(dao.getReminders()).isEmpty()
-//    }
+        @Test
+    fun retrieveFromDBSucceeds() = runBlockingTest {
+        remainderDao.insertRemainder(reminderData)
+        val reminder = remainderDao.getRemainderById(reminderData.id)
+        assertThat(reminder).isNotNull()
+        assertThat(reminder?.title).isEqualTo(reminderData.title)
+        assertThat(reminder?.description).isEqualTo(reminderData.description)
+        assertThat(reminder?.latitude).isEqualTo(reminderData.latitude)
+        assertThat(reminder?.longitude).isEqualTo(reminderData.longitude)
+    }
+    @Test
+    fun deleteRemainderFromDatabase() = runBlockingTest {
+        remainderDao.insertRemainder(reminderData)
+        val list = remainderDao.getRemainders()
+        assertThat(list.isEmpty()).isFalse()
+        remainderDao.deleteAllRemainders()
+        assertThat(remainderDao.getRemainders()).isEmpty()
+    }
 }

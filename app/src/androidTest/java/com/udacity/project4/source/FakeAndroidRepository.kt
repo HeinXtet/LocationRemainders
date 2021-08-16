@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.udacity.project4.data.source.RemaindersRepository
 import com.udacity.project4.domain.model.Remainder
+import com.udacity.project4.utils.Result
 import timber.log.Timber
 
 /**
@@ -21,7 +22,7 @@ class FakeAndroidRepository : RemaindersRepository {
 
     override suspend fun saveReminder(remainder: Remainder) {
         remainders.add(remainder)
-        remainderLiveData.postValue( remainders)
+        remainderLiveData.postValue(remainders)
     }
 
     override suspend fun deleteRemainder(remainder: Remainder) {
@@ -29,12 +30,12 @@ class FakeAndroidRepository : RemaindersRepository {
     }
 
     override suspend fun getRemainderById(id: String): Remainder? {
-        val remainder  = remainders.findLast { it.id == id }
+        val remainder = remainders.findLast { it.id == id }
         Timber.d("getRemainderById ${remainder?.title}")
         return remainder
     }
 
-    override fun getRemainders(): List<Remainder> {
-        return remainders
+    override suspend fun getRemainders(): Result<List<Remainder>> {
+        return Result.Success(remainders)
     }
 }

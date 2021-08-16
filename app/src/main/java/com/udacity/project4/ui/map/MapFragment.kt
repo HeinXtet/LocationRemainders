@@ -72,16 +72,12 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         if (viewModel.selectPoi.value == null) {
             locationHandler.requestLocation()
         }
+        map.setOnMyLocationClickListener {
+            requestForegroundPermission()
+        }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-    }
-
-    override fun onStart() {
-        super.onStart()
+    private fun requestForegroundPermission() {
         (requireActivity() as MainActivity).requestForegroundLocationPermission(
             onPermissionGranted = {
                 viewModel.updatePermissionStatus(true)
@@ -91,10 +87,17 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
             })
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+    }
+
     override fun onMapReady(p0: GoogleMap?) {
         p0?.let {
             map = it
             setupMap()
+            requestForegroundPermission()
         }
     }
 

@@ -3,6 +3,8 @@ package com.udacity.project4.source
 import com.udacity.project4.TestModelUtils
 import com.udacity.project4.data.source.RemaindersRepository
 import com.udacity.project4.data.source.RemaindersRepositoryImpl
+import com.udacity.project4.domain.model.Remainder
+import com.udacity.project4.utils.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
@@ -29,8 +31,8 @@ class RemainderRepositoryTest {
     @Test
     fun saveRemainder_return_notEmptyList() = runBlockingTest {
         remainderRepository.saveReminder(TestModelUtils.getTestRemainder())
-        val list = remainderRepository.getRemainders()
-        assertThat(list.isNotEmpty(), `is`(true))
+        val list = remainderRepository.getRemainders() as Result.Success<List<Remainder>>
+        assertThat(list.data.isNotEmpty(), `is`(true))
     }
 
     @Test
@@ -43,17 +45,18 @@ class RemainderRepositoryTest {
     @Test
     fun saveRemainder_andDeleteRemainder_return_EmptyList() = runBlockingTest {
         remainderRepository.saveReminder(TestModelUtils.getTestRemainder())
-        assertThat(remainderRepository.getRemainders().isEmpty(), `is`(false))
+        val list = remainderRepository.getRemainders() as Result.Success<List<Remainder>>
+        assertThat(list.data.isEmpty(), `is`(false))
         remainderRepository.deleteRemainder(TestModelUtils.getTestRemainder())
-        assertThat(remainderRepository.getRemainders().isEmpty(), `is`(true))
+        assertThat(list.data.isEmpty(), `is`(true))
     }
 
 
     @Test
-    fun returnNullForRemainderById_whenError() = runBlockingTest{
+    fun returnNullForRemainderById_whenError() = runBlockingTest {
         fakeDataSource.setShouldReturnError(true)
         val remainder = remainderRepository.getRemainderById("1")
-        assertThat(remainder==null, `is`(true))
+        assertThat(remainder == null, `is`(true))
     }
 
 }

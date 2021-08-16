@@ -12,6 +12,7 @@ import com.udacity.project4.ui.base.BaseViewModel
 import com.udacity.project4.utils.Event
 import com.firebase.ui.auth.AuthUI
 import com.udacity.project4.data.source.local.RemaindersDao
+import com.udacity.project4.utils.Result
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -90,12 +91,18 @@ class RemainderViewModel constructor(private val repository: RemaindersRepositor
                     })
                     remindersList.value = dataList
                 }
-                is Error ->
+                is Result.Error ->
                     showSnackBar.value = Event(result.message.orEmpty())
             }
-
-            //check if no data has to be shown
+            invalidateShowNoData()
         }
+    }
+
+    /**
+     * Inform the user that there's not any data if the remindersList is empty
+     */
+    private fun invalidateShowNoData() {
+        showNoData.value = remindersList.value == null || remindersList.value!!.isEmpty()
     }
 
 }

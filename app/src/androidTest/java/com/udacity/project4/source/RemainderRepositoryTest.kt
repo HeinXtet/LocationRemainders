@@ -11,12 +11,12 @@ import com.udacity.project4.data.source.RemaindersRepository
 import com.udacity.project4.data.source.RemaindersRepositoryImpl
 import com.udacity.project4.data.source.local.RemaindersDatabase
 import com.udacity.project4.data.source.local.RemaindersLocalDataSource
+import com.udacity.project4.domain.model.Remainder
+import com.udacity.project4.utils.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.`is`
-import org.hamcrest.Matchers.notNullValue
+import org.hamcrest.Matchers.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -62,12 +62,12 @@ class RemainderTestRepositoryTest {
     }
 
 
-
     @Test
     fun saveRemainder_return_notEmptyList() = runBlocking {
         remainderRepository.saveReminder(TestModelUtils.getTestRemainder())
-        val list = remainderRepository.getRemainders()
-        assertThat(list.isNotEmpty(), `is`(true))
+        val result = remainderRepository.getRemainders()
+        val list = remainderRepository.getRemainders() as Result.Success<List<Remainder>>
+        assertThat(list.data.isNotEmpty(), `is`(true))
     }
 
     @Test
@@ -80,9 +80,11 @@ class RemainderTestRepositoryTest {
     @Test
     fun saveRemainder_andDeleteRemainder_return_EmptyList() = runBlocking {
         remainderRepository.saveReminder(TestModelUtils.getTestRemainder())
-        assertThat(remainderRepository.getRemainders().isEmpty(), `is`(false))
+        val list = remainderRepository.getRemainders() as Result.Success<List<Remainder>>
+        assertThat(list.data.isNotEmpty(), `is`(true))
         remainderRepository.deleteRemainder(TestModelUtils.getTestRemainder())
-        assertThat(remainderRepository.getRemainders().isEmpty(), `is`(true))
+        val savedList = remainderRepository.getRemainders() as Result.Success<List<Remainder>>
+        assertThat(savedList.data.isEmpty(), `is`(true))
     }
 }
 

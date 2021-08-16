@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.udacity.project4.data.source.RemaindersRepository
 import com.udacity.project4.domain.model.Remainder
+import com.udacity.project4.utils.Result
 
 /**
  * Created by heinhtet deevvdd@gmail.com on 20,July,2021
@@ -33,16 +34,17 @@ class FakeRepository : RemaindersRepository {
     }
 
     override suspend fun getRemainderById(id: String): Remainder? {
-        if(shouldReturnError){
+        if (shouldReturnError) {
             return null
         }
         return remainders.find { it.id == id }
     }
 
-    override fun getRemainders(): List<Remainder> {
-        if(shouldReturnError){
-            return emptyList()
+    override suspend fun getRemainders(): Result<List<Remainder>> {
+        return if (shouldReturnError) {
+            Result.Error("No remainder found exception")
+        } else {
+            Result.Success(remainders)
         }
-        return remainders
     }
 }
